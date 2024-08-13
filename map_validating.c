@@ -504,8 +504,7 @@ int handle_keypress(int keycode, t_game *game)
             return (0); // Do not allow entering the end block
         }
     }
-
-    // Check if the new position is a collectible
+	// Check if the new position is a collectible
     if (game->map[new_y][new_x] == 'C')
     {
         game->collected++;
