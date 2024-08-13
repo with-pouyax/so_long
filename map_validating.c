@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mlx.h>
+
 #include "get_next_line.h"
 
 typedef struct s_counts
@@ -13,6 +15,24 @@ typedef struct s_counts
 	int p_x;
 	int p_y;
 }	t_counts;
+
+typedef struct s_game {
+    void    *mlx;
+    void    *win;
+    void    *img_wall;
+    void    *img_ground;
+    void    *img_collectable;
+    void    *img_end;
+    void    *img_player;
+    char    **map;
+    int     width;
+    int     height;
+    int     player_x;
+    int     player_y;
+    int     collectables;
+    int     collected;
+    int     moves;
+} t_game;
 
 int	ft_char_counter(char *str, int size)
 {
@@ -354,21 +374,220 @@ void	path_validator(char *filename)
 	close(fd);
 }
 
+void get_map_dimensions(const char *filename, int *width, int *height)
+{
+	int fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error reading file");
+		exit(1);
+	}
 
+	char buffer[2];
+	*width = 0;
+	*height = 0;
+	int line_length = 0;
+	int first_line = 1;
+
+	while (read(fd, buffer, 1) > 0)
+	{
+		if (buffer[0] == '\n')
+		{
+			if (first_line)
+			{
+				*width = line_length;
+				first_line = 0;
+			}
+			(*height)++;
+			line_length = 0;
+		}
+		else
+		{
+			line_length++;
+		}
+	}
+	if (line_length > 0)
+	{
+		(*height)++;
+		if (first_line)
+			*width = line_length;
+	}
+
+	close(fd);
+}
+
+void draw_map(t_game *game, const char *filename)
+{
+    int fd;
+    char buffer[2];
+    int x = 0;
+    int y = 0;
+
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Error reading file");
+        exit(1);
+    }
+
+    game->map = (char **)malloc(sizeof(char *) * game->height);
+    for (int i = 0; i < game->height; i++)
+        game->map[i] = (char *)malloc(sizeof(char) * (game->width + 1));
+
+    while (read(fd, buffer, 1) > 0)
+    {
+        if (buffer[0] == '\n')
+        {
+            y++;
+            x = 0;
+        }
+        else
+        {
+            game->map[y][x] = buffer[0];
+            if (buffer[0] == 'P')
+            {
+                game->player_x = x;
+                game->player_y = y;
+            }
+            else if (buffer[0] == 'C')
+            {
+                game->collectables++;
+            }
+
+            if (buffer[0] == '1')
+                mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x * 100, y * 100);
+            else if (buffer[0] == '0')
+                mlx_put_image_to_window(game->mlx, game->win, game->img_ground, x * 100, y * 100);
+            else if (buffer[0] == 'C')
+                mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x * 100, y * 100);
+            else if (buffer[0] == 'E')
+                mlx_put_image_to_window(game->mlx, game->win, game->img_end, x * 100, y * 100);
+            else if (buffer[0] == 'P')
+                mlx_put_image_to_window(game->mlx, game->win, game->img_player, x * 100, y * 100);
+
+            x++;
+        }
+    }
+    close(fd);
+}
+
+int handle_keypress(int keycode, t_game *game)
+{
+    int new_x = game->player_x;
+    int new_y = game->player_y;
+
+    if (keycode == 65307) // Escape key to close the window
+        exit(0);
+    else if (keycode == 119) // W key for up
+        new_y--;
+    else if (keycode == 115) // S key for down
+        new_y++;
+    else if (keycode == 97) // A key for left
+        new_x--;
+    else if (keycode == 100) // D key for right
+        new_x++;
+
+    // Check if the new position is a wall
+    if (game->map[new_y][new_x] == '1')
+        return (0);
+
+    // Check if the new position is the end
+    if (game->map[new_y][new_x] == 'E')
+    {
+        if (game->collected == game->collectables)
+        {
+            printf("Congratulations, you've won!\n");
+            exit(0);
+        }
+        else
+        {
+            return (0); // Do not allow entering the end block
+        }
+    }
+
+    // Check if the new position is a collectible
+    if (game->map[new_y][new_x] == 'C')
+    {
+        game->collected++;
+        game->map[new_y][new_x] = '0'; // Change collectible to ground
+    }
+
+    // Check if the player has actually moved
+    if (new_x != game->player_x || new_y != game->player_y)
+    {
+        // Update player's position on the map
+        mlx_put_image_to_window(game->mlx, game->win, game->img_ground, game->player_x * 100, game->player_y * 100);
+        game->player_x = new_x;
+        game->player_y = new_y;
+        mlx_put_image_to_window(game->mlx, game->win, game->img_player, game->player_x * 100, game->player_y * 100);
+
+        // Increment the movement counter and print it
+        game->moves++;
+        printf("Moves: %d\n", game->moves);
+    }
+
+    return (0);
+}
+
+
+int close_window(t_game *game)
+{
+    mlx_destroy_window(game->mlx, game->win);
+    exit(0);
+    return (0);
+}
+
+void make_window(const char *filename)
+{
+    t_game game;
+
+    game.collectables = 0;
+    game.collected = 0;
+    game.moves = 0;
+
+    get_map_dimensions(filename, &game.width, &game.height);
+    game.mlx = mlx_init();
+    if (game.mlx == NULL)
+    {
+        fprintf(stderr, "Error initializing MiniLibX\n");
+        exit(1);
+    }
+    game.win = mlx_new_window(game.mlx, game.width * 100, game.height * 100, "Map Window");
+    if (game.win == NULL)
+    {
+        fprintf(stderr, "Error creating window\n");
+        exit(1);
+    }
+
+    game.img_wall = mlx_xpm_file_to_image(game.mlx, "wall.xpm", &game.width, &game.height);
+    game.img_ground = mlx_xpm_file_to_image(game.mlx, "ground.xpm", &game.width, &game.height);
+    game.img_collectable = mlx_xpm_file_to_image(game.mlx, "collectable.xpm", &game.width, &game.height);
+    game.img_end = mlx_xpm_file_to_image(game.mlx, "end.xpm", &game.width, &game.height);
+    game.img_player = mlx_xpm_file_to_image(game.mlx, "player.xpm", &game.width, &game.height);
+
+    draw_map(&game, filename);
+
+    mlx_key_hook(game.win, handle_keypress, &game);
+    mlx_hook(game.win, 17, 0, close_window, &game);  // Hook to handle window close event
+    mlx_loop(game.mlx);
+}
 
 int	main(int ac, char **av)
 {
-	int size = 22;
+	int size = 10;
 
 	if (ac != 2)
 	{
 		printf("Error\n");
 		return (1);
 	}
-	check_line_len (av[1], size);
-	max_line(av[1], size);
+	check_line_len (av[1], 20);
+	max_line(av[1], 9);
 	check_rectangle(av[1]);
 	check_surrounded_by_1(av[1]);
 	check_characters(av[1]);
 	path_validator(av[1]);
+
+	make_window(av[1]);
+
 }
