@@ -1,0 +1,15 @@
+==41740== Memcheck, a memory error detector
+==41740== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==41740== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==41740== Command: ./your_program_name a.ber
+==41740== Parent PID: 41739
+==41740== 
+==41740== 
+==41740== HEAP SUMMARY:
+==41740==     in use at exit: 0 bytes in 0 blocks
+==41740==   total heap usage: 2,007 allocs, 2,007 frees, 1,271,620 bytes allocated
+==41740== 
+==41740== All heap blocks were freed -- no leaks are possible
+==41740== 
+==41740== For lists of detected and suppressed errors, rerun with: -s
+==41740== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
