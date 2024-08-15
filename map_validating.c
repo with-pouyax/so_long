@@ -7,155 +7,139 @@
 
 #include "get_next_line.h"
 
-typedef struct s_counts
+typedef struct s_count
 {
-    int p_count;
-    int c_count;
-    int e_count;
-    int p_x;
-    int p_y;
-    int width;
-    int height;
-    int exit_found;
-} t_counts;
+	int		p_count;
+	int		c_count;
+	int		e_count;
+	int		p_x;
+	int		p_y;
+	int		width;
+	int		height;
+	int		exit_found;
+}	t_count;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
-	void	*img_wall;
-	void	*img_ground;
-	void	*img_collectable;
-	void	*img_end;
-	void	*img_player;
+	void	*wall;
+	void	*ground;
+	void	*collect;
+	void	*end;
+	void	*player;
 	char	**map;
 	int		width;
 	int		height;
-	int		player_x;
-	int		player_y;
-	int		collectables;
+	int		p_x;
+	int		p_y;
+	int		collect_count;
 	int		collected;
 	int		moves;
-}			t_game;
+}	t_game;
 
-void initialize_game_struct(t_game *game)
+void	init_game_struct(t_game *game)
 {
-game->mlx = NULL;
-    game->win = NULL;
-    game->img_wall = NULL;
-    game->img_ground = NULL;
-    game->img_collectable = NULL;
-    game->img_end = NULL;
-    game->img_player = NULL;
-    game->map = NULL;
-    game->width = 0;
-    game->height = 0;
-    game->player_x = 0;
-    game->player_y = 0;
-    game->collectables = 0;
-    game->collected = 0;
-    game->moves = 0;
+	game->mlx = NULL;
+	game->win = NULL;
+	game->wall = NULL;
+	game->ground = NULL;
+	game->collect = NULL;
+	game->end = NULL;
+	game->player = NULL;
+	game->map = NULL;
+	game->width = 0;
+	game->height = 0;
+	game->p_x = 0;
+	game->p_y = 0;
+	game->collect_count = 0;
+	game->collected = 0;
+	game->moves = 0;
 }
 
-int	handle_keypress(int keycode, t_game *game);
+// Function prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
-int	is_move_valid(int new_x, int new_y, t_game *game);
+int		is_move_valid(int new_x, int new_y, t_game *game);
 void	update_position(int new_x, int new_y, t_game *game);
+int		handle_keypress(int keycode, t_game *game);
 
-void free_game_map(t_game *game) {
-    int i;
-
-    if (game->map == NULL)
-        return;
-    i = 0;
-    while (i < game->height) {
-        free(game->map[i]);
-        i++;
-    }
-    free(game->map);
-    game->map = NULL;
-}
-
-
-void free_images(t_game *game)
+void	free_map(t_game *game)
 {
-    if (game->img_wall)
-    {
-        mlx_destroy_image(game->mlx, game->img_wall);
-        game->img_wall = NULL;
-    }
-    if (game->img_ground)
-    {
-        mlx_destroy_image(game->mlx, game->img_ground);
-        game->img_ground = NULL;
-    }
-    if (game->img_collectable)
-    {
-        mlx_destroy_image(game->mlx, game->img_collectable);
-        game->img_collectable = NULL;
-    }
-    if (game->img_end)
-    {
-        mlx_destroy_image(game->mlx, game->img_end);
-        game->img_end = NULL;
-    }
-    if (game->img_player)
-    {
-        mlx_destroy_image(game->mlx, game->img_player);
-        game->img_player = NULL;
-    }
+	int	i;
+
+	if (!game->map)
+		return ;
+	i = 0;
+	while (i < game->height)
+	{
+		free(game->map[i]);
+		i++;
+	}
+	free(game->map);
+	game->map = NULL;
 }
 
-void cleanup(t_game *game)
+void	free_images(t_game *game)
 {
-    // Free images if they were allocated
-    if (game->img_wall)
-        mlx_destroy_image(game->mlx, game->img_wall);
-    if (game->img_ground)
-        mlx_destroy_image(game->mlx, game->img_ground);
-    if (game->img_collectable)
-        mlx_destroy_image(game->mlx, game->img_collectable);
-    if (game->img_end)
-        mlx_destroy_image(game->mlx, game->img_end);
-    if (game->img_player)
-        mlx_destroy_image(game->mlx, game->img_player);
-
-    // Free the map if it was allocated
-    if (game->map)
-    {
-        for (int i = 0; i < game->height; i++)
-        {
-            free(game->map[i]);
-        }
-        free(game->map);
-    }
-
-    // Destroy the window and display if they were created
-    if (game->win)
-        mlx_destroy_window(game->mlx, game->win);
-    if (game->mlx)
-    {
-        mlx_destroy_display(game->mlx);
-        free(game->mlx);
-    }
+	if (game->wall)
+	{
+		mlx_destroy_image(game->mlx, game->wall);
+		game->wall = NULL;
+	}
+	if (game->ground)
+	{
+		mlx_destroy_image(game->mlx, game->ground);
+		game->ground = NULL;
+	}
+	if (game->collect)
+	{
+		mlx_destroy_image(game->mlx, game->collect);
+		game->collect = NULL;
+	}
+	if (game->end)
+	{
+		mlx_destroy_image(game->mlx, game->end);
+		game->end = NULL;
+	}
+	if (game->player)
+	{
+		mlx_destroy_image(game->mlx, game->player);
+		game->player = NULL;
+	}
 }
 
+void	cleanup(t_game *game)
+{
+	free_images(game);
+	free_map(game);
+	if (game->win)
+	{
+		mlx_destroy_window(game->mlx, game->win);
+		game->win = NULL;
+	}
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+		game->mlx = NULL;
+	}
+}
 
 void	handle_exit(t_game *game)
 {
-    printf("Congratulations, you've won!\n");
-    cleanup(game);
-    exit(0);
+	printf("Congratulations, you've won!\n");
+	cleanup(game);
+	exit(0);
 }
 
 int	close_window(t_game *game)
 {
-    cleanup(game);
-    exit(0);
-    return (0);
+	cleanup(game);
+	exit(0);
+	return (0);
 }
 
-int	ft_char_counter(char *str, int size)
+int	validate_line_len(char *str, int size)
 {
 	int	i;
 
@@ -177,11 +161,11 @@ void	handle_error(const char *message, int fd)
 
 void	validate_line(char *line, int size, int fd)
 {
-	if (!ft_char_counter(line, size))
+	if (!validate_line_len(line, size))
 	{
 		free(line);
 		close(fd);
-		printf("Line has less than 3 or more than size\n");
+		printf("Line length error\n");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -196,7 +180,7 @@ void	process_lines(int fd, int size)
 	while (line != NULL)
 	{
 		if (!line && first_line_read)
-			handle_error("unexpected NULL line after successful read", fd);
+			handle_error("Unexpected NULL line after successful read", fd);
 		first_line_read = 1;
 		validate_line(line, size, fd);
 		free(line);
@@ -215,7 +199,7 @@ void	check_line_len(char *str, int size)
 	close(fd);
 }
 
-void	max_line(char *str, int size)
+void	check_map_height(char *str, int size)
 {
 	char	*line;
 	int		fd;
@@ -235,10 +219,10 @@ void	max_line(char *str, int size)
 		free(line);
 		line = get_next_line(fd);
 	}
-	close (fd);
+	close(fd);
 	if (i > size || i < 3)
 	{
-		printf("Height exceeds characters\n");
+		printf("Height exceeds limits\n");
 		exit(1);
 	}
 }
@@ -255,20 +239,20 @@ void	exit_with_error(char *message, int fd, char *line)
 
 int	get_line_length(char *line)
 {
-	int	line_length;
+	int	len;
 
-	line_length = strlen(line);
-	if (line[line_length - 1] == '\n')
-		line_length--;
-	return (line_length);
+	len = strlen(line);
+	if (line[len - 1] == '\n')
+		len--;
+	return (len);
 }
 
-void	check_line_length(char *line, int expected_length, int fd)
+void	check_line_length(char *line, int expected_len, int fd)
 {
-	int	line_length;
+	int	line_len;
 
-	line_length = get_line_length(line);
-	if (line_length != expected_length)
+	line_len = get_line_length(line);
+	if (line_len != expected_len)
 		exit_with_error("Not a rectangle", fd, line);
 }
 
@@ -305,13 +289,13 @@ void	check_rectangle(char *str)
 int	is_line_all_ones(char *line)
 {
 	int	i;
-	int	line_length;
+	int	len;
 
-	line_length = strlen(line);
-	if (line[line_length - 1] == '\n')
-		line_length--;
+	len = strlen(line);
+	if (line[len - 1] == '\n')
+		len--;
 	i = 0;
-	while (i < line_length)
+	while (i < len)
 	{
 		if (line[i] != '1')
 			return (0);
@@ -320,7 +304,7 @@ int	is_line_all_ones(char *line)
 	return (1);
 }
 
-void	check_first_and_last_line(char *line, int fd)
+void	check_first_last_line(char *line, int fd)
 {
 	if (!is_line_all_ones(line))
 		exit_with_error("Not surrounded by 1 (first or last line)", fd, line);
@@ -328,12 +312,12 @@ void	check_first_and_last_line(char *line, int fd)
 
 void	check_middle_line(char *line, int fd)
 {
-	int	line_length;
+	int	len;
 
-	line_length = strlen(line);
-	if (line[line_length - 1] == '\n')
-		line_length--;
-	if (line[0] != '1' || line[line_length - 1] != '1')
+	len = strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		len--;
+	if (line[0] != '1' || line[len - 1] != '1')
 		exit_with_error("Error: Not surrounded by 1 (middle lines)", fd, line);
 }
 
@@ -346,7 +330,7 @@ void	process_file_lines(int fd)
 	line = get_next_line(fd);
 	if (line == NULL)
 		exit_with_error("File is empty or error reading file", fd, NULL);
-	check_first_and_last_line(line, fd);
+	check_first_last_line(line, fd);
 	free(line);
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -358,7 +342,7 @@ void	process_file_lines(int fd)
 		line = get_next_line(fd);
 	}
 	if (last_line)
-		check_first_and_last_line(last_line, fd);
+		check_first_last_line(last_line, fd);
 	free(last_line);
 }
 
@@ -373,7 +357,7 @@ void	check_surrounded_by_1(char *str)
 	close(fd);
 }
 
-void	update_counts(t_counts *counts, char c, int fd, char *line)
+void	update_counts(t_count *counts, char c, int fd, char *line)
 {
 	if (c == 'P')
 		counts->p_count++;
@@ -385,22 +369,22 @@ void	update_counts(t_counts *counts, char c, int fd, char *line)
 		exit_with_error("Error: Invalid character found", fd, line);
 }
 
-void	validate_counts(t_counts counts)
+void	validate_counts(t_count counts)
 {
 	if (counts.p_count != 1)
-		exit_with_error("Error: Number of 'P' is not equal to 1", -1, NULL);
+		exit_with_error("Error: 'P' count != 1", -1, NULL);
 	if (counts.c_count < 1)
-		exit_with_error("Error: Number of 'C' is less than 1", -1, NULL);
+		exit_with_error("Error: 'C' count < 1", -1, NULL);
 	if (counts.e_count != 1)
-		exit_with_error("Error: Number of 'E' is not equal to 1", -1, NULL);
+		exit_with_error("Error: 'E' count != 1", -1, NULL);
 }
 
 void	check_characters(char *str)
 {
-	t_counts	counts;
-	char		*line;
-	int			fd;
-	int			i;
+	t_count	counts;
+	char	*line;
+	int		fd;
+	int		i;
 
 	counts.p_count = 0;
 	counts.c_count = 0;
@@ -424,7 +408,7 @@ void	check_characters(char *str)
 	validate_counts(counts);
 }
 
-void	free_map(char **map, int height)
+void	free_map_memory(char **map, int height)
 {
 	int	i;
 
@@ -440,7 +424,7 @@ void	free_map(char **map, int height)
 }
 
 void	flood_fill(char **map, int x, int y, int width, int height, \
-	t_counts *counts, int *exit_found)
+	t_count *counts, int *exit_found)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height || \
 	map[y][x] == '1' || map[y][x] == 'F')
@@ -463,7 +447,7 @@ void	flood_fill(char **map, int x, int y, int width, int height, \
 }
 
 #define INITIAL_MAP_SIZE 10
-void	track_map_info(char *line, t_counts *counts, int *height)
+void	track_map_info(char *line, t_count *counts, int *height)
 {
 	int	i;
 
@@ -500,7 +484,7 @@ char	**expand_map(char **map, int *map_capacity, int height, int fd, char *line)
 	return (new_map);
 }
 
-char	**read_map(int fd, t_counts *counts, int *width, int *height)
+char	**read_map(int fd, t_count *counts, int *width, int *height)
 {
 	char	**map;
 	char	*line;
@@ -525,40 +509,40 @@ char	**read_map(int fd, t_counts *counts, int *width, int *height)
 	return (map);
 }
 
-void	validate_start_position(t_counts counts, char **map, int height, int fd)
+void	validate_start_pos(t_count counts, char **map, int height, int fd)
 {
 	if (counts.p_x == -1 || counts.p_y == -1)
 	{
-		free_map(map, height);
+		free_map_memory(map, height);
 		exit_with_error("Error: Player start position not found", fd, NULL);
 	}
 }
 
-void	validate_path(t_counts counts, int exit_found, char **map, int height, int fd)
+void	validate_path(t_count counts, int exit_found, char **map, int height, int fd)
 {
 	if (counts.c_count != counts.e_count || !exit_found)
 	{
-		free_map(map, height);
+		free_map_memory(map, height);
 		exit_with_error("Error: No valid path to collect all collectibles and reach the exit", fd, NULL);
 	}
 }
 
-void	path_validator(char *filename)
+void	validate_map_path(char *filename)
 {
 	char		**map;
 	int			fd;
-	t_counts	counts;
+	t_count		counts;
 
-	counts = (t_counts){0, 0, 0, -1, -1, 0, 0, 0};
+	counts = (t_count){0, 0, 0, -1, -1, 0, 0, 0};
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_with_error("Error opening file", fd, NULL);
 	map = read_map(fd, &counts, &counts.width, &counts.height);
-	validate_start_position(counts, map, counts.height, fd);
+	validate_start_pos(counts, map, counts.height, fd);
 	flood_fill(map, counts.p_x, counts.p_y,
 		counts.width, counts.height, &counts, &counts.exit_found);
 	validate_path(counts, counts.exit_found, map, counts.height, fd);
-	free_map(map, counts.height);
+	free_map_memory(map, counts.height);
 	close(fd);
 }
 
@@ -670,36 +654,44 @@ void	allocate_map_memory(t_game *game, int fd, char *buffer)
 
 	game->map = (char **)malloc(sizeof(char *) * game->height);
 	if (!game->map)
-		handle_error_and_exit("Error allocating memory for map", fd, NULL, buffer, 0);
+		handle_error_and_exit("Err allocate mem for map", fd, NULL, buffer, 0);
 	i = 0;
 	while (i < game->height)
 	{
 		game->map[i] = (char *)malloc(sizeof(char) * (game->width + 1));
 		if (!game->map[i])
-			handle_error_and_exit("Error allocating memory for map rows", fd, game->map, buffer, game->height);
+			handle_error_and_exit("Err allocating memory for map rows", \
+			fd, game->map, buffer, game->height);
 		i++;
 	}
 }
 
-void process_map_char(t_game *game, char c, int x, int y)
+void	process_map_char(t_game *game, char c, int x, int y)
 {
-    if (c == 'P')
-    {
-        game->player_x = x;
-        game->player_y = y;
-    }
-    if (c == '1')
-        mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x * 100, y * 100);
-    else if (c == '0')
-        mlx_put_image_to_window(game->mlx, game->win, game->img_ground, x * 100, y * 100);
-    else if (c == 'C')
-        mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x * 100, y * 100);
-    else if (c == 'E')
-        mlx_put_image_to_window(game->mlx, game->win, game->img_end, x * 100, y * 100);
-    else if (c == 'P')
-        mlx_put_image_to_window(game->mlx, game->win, game->img_player, x * 100, y * 100);
+	if (c == 'P')
+	{
+		game->p_x = x;
+		game->p_y = y;
+	}
+	else if (c == 'C')
+	{
+		game->collect_count++;
+		mlx_put_image_to_window(game->mlx, game->win, \
+		game->collect, x * 100, y * 100);
+	}
+	else if (c == '1')
+		mlx_put_image_to_window(game->mlx, game->win, \
+		game->wall, x * 100, y * 100);
+	else if (c == '0')
+		mlx_put_image_to_window(game->mlx, game->win, \
+		game->ground, x * 100, y * 100);
+	else if (c == 'E')
+		mlx_put_image_to_window(game->mlx, game->win, \
+		game->end, x * 100, y * 100);
+	else if (c == 'P')
+		mlx_put_image_to_window(game->mlx, game->win, \
+		game->player, x * 100, y * 100);
 }
-
 
 void	read_and_draw_map(t_game *game, int fd, char *buffer)
 {
@@ -718,7 +710,8 @@ void	read_and_draw_map(t_game *game, int fd, char *buffer)
 		else
 		{
 			if (x >= game->width || y >= game->height)
-				handle_error_and_exit("Error: Map dimensions exceed expected width/height", fd, game->map, buffer, game->height);
+				handle_error_and_exit("Err Map dimensions exceed expected width/height", \
+				fd, game->map, buffer, game->height);
 			game->map[y][x] = buffer[0];
 			process_map_char(game, buffer[0], x, y);
 			x++;
@@ -736,95 +729,73 @@ void	draw_map(t_game *game, const char *filename)
 		handle_error_and_exit("Error reading file", -1, NULL, NULL, 0);
 	buffer = (char *)malloc(sizeof(char) * 2);
 	if (!buffer)
-		handle_error_and_exit("Error allocating memory for buffer", fd, NULL, NULL, 0);
+		handle_error_and_exit("Err allocate mem for buffer", fd, NULL, NULL, 0);
 	allocate_map_memory(game, fd, buffer);
 	read_and_draw_map(game, fd, buffer);
 	free(buffer);
 	close(fd);
 }
 
-void load_images(t_game *game)
+void load_image(t_game *game, void **image, char *file_name)
 {
-    game->img_wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &game->width, &game->height);
-    if (!game->img_wall)
-    {
-        cleanup(game);
-        exit(1);
-    }
-
-    game->img_ground = mlx_xpm_file_to_image(game->mlx, "ground.xpm", &game->width, &game->height);
-    if (!game->img_ground)
-    {
-        cleanup(game);
-        exit(1);
-    }
-
-    game->img_collectable = mlx_xpm_file_to_image(game->mlx, "collectable.xpm", &game->width, &game->height);
-    if (!game->img_collectable)
-    {
-        cleanup(game);
-        exit(1);
-    }
-
-    game->img_end = mlx_xpm_file_to_image(game->mlx, "end.xpm", &game->width, &game->height);
-    if (!game->img_end)
-    {
-        cleanup(game);
-        exit(1);
-    }
-
-    game->img_player = mlx_xpm_file_to_image(game->mlx, "player.xpm", &game->width, &game->height);
-    if (!game->img_player)
-    {
-        cleanup(game);
-        exit(1);
-    }
+	*image = mlx_xpm_file_to_image(game->mlx, \
+	file_name, &game->width, &game->height);
+	if (!*image)
+	{
+		cleanup(game);
+		exit(1);
+	}
 }
 
-
+void load_images(t_game *game)
+{
+	load_image(game, (void **)&game->wall, "wall.xpm");
+	load_image(game, (void **)&game->ground, "ground.xpm");
+	load_image(game, (void **)&game->collect, "collectable.xpm");
+	load_image(game, (void **)&game->end, "end.xpm");
+	load_image(game, (void **)&game->player, "player.xpm");
+}
 
 void	create_window(t_game *game, const char *filename)
 {
-	game->win = mlx_new_window(game->mlx, \
-	game->width * 100, game->height * 100, "Map Window");
+	game->win = mlx_new_window(game->mlx, game->width * 100, \
+	game->height * 100, "Map Window");
 	if (game->win == NULL)
 	{
 		fprintf(stderr, "Error creating window\n");
 		exit(1);
 	}
-
 	load_images(game);
 	draw_map(game, filename);
-
+	mlx_put_image_to_window(game->mlx, game->win, game->player, game->p_x * 100, game->p_y * 100);
 	mlx_key_hook(game->win, handle_keypress, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	mlx_loop(game->mlx);
 }
 
-void	initialize_game(const char *filename, t_game *game)
+void	init_game(const char *filename, t_game *game)
 {
-    initialize_game_struct(game);  // Initialize the structure
+	init_game_struct(game);
 
-    game->collectables = 0;
-    game->collected = 0;
-    game->moves = 0;
-
-    get_map_dimensions(filename, &game->width, &game->height);
-    game->mlx = mlx_init();
-    if (game->mlx == NULL)
-    {
-        fprintf(stderr, "Error initializing MiniLibX\n");
-        exit(1);
-    }
+	game->collect_count = 0;
+	game->collected = 0;
+	game->moves = 0;
+	get_map_dimensions(filename, &game->width, &game->height);
+	game->mlx = mlx_init();
+	if (game->mlx == NULL)
+	{
+		fprintf(stderr, "Error initializing MiniLibX\n");
+		exit(1);
+	}
 }
 
 void	make_window(const char *filename)
 {
 	t_game	game;
 
-	initialize_game(filename, &game);
+	init_game(filename, &game);
 	create_window(&game, filename);
-	cleanup(&game); // Ensure cleanup is called even after window is closed
+	cleanup(&game);
 }
 
 int	handle_keypress(int keycode, t_game *game)
@@ -832,12 +803,12 @@ int	handle_keypress(int keycode, t_game *game)
 	int	new_x;
 	int	new_y;
 
-	new_x = game->player_x;
-	new_y = game->player_y;
-	if (keycode == 65307) // Escape key
+	new_x = game->p_x;
+	new_y = game->p_y;
+	if (keycode == 65307)
 	{
-		cleanup(game); // Ensure cleanup is done
-		exit(0); // Then exit
+		cleanup(game);
+		exit(0);
 	}
 	process_key(keycode, &new_x, &new_y);
 	if (is_move_valid(new_x, new_y, game))
@@ -865,41 +836,35 @@ int	is_move_valid(int new_x, int new_y, t_game *game)
 		return (0);
 	if (game->map[new_y][new_x] == 'E')
 	{
-		if (game->collected == game->collectables)
+		if (game->collected == game->collect_count)
+		{
 			handle_exit(game);
+			return (1);
+		}
 		else
 			return (0);
 	}
 	return (1);
 }
 
-void update_position(int new_x, int new_y, t_game *game)
+void	update_position(int new_x, int new_y, t_game *game)
 {
-    // Check if the player is trying to move to a different position
-    if (new_x != game->player_x || new_y != game->player_y)
-    {
-        if (game->map[new_y][new_x] == 'C')
-        {
-            game->collected++;
-            game->map[new_y][new_x] = '0';
-        }
-
-        // Clear the player's previous position
-        mlx_put_image_to_window(game->mlx, game->win, game->img_ground,
-            game->player_x * 100, game->player_y * 100);
-        
-        // Update the player's position
-        game->player_x = new_x;
-        game->player_y = new_y;
-
-        // Draw the player at the new position
-        mlx_put_image_to_window(game->mlx, game->win, game->img_player,
-            game->player_x * 100, game->player_y * 100);
-
-        // Increment the move counter
-        game->moves++;
-        printf("Moves: %d\n", game->moves);
-    }
+	if (new_x != game->p_x || new_y != game->p_y)
+	{
+		if (game->map[new_y][new_x] == 'C')
+		{
+			game->collected++;
+			game->map[new_y][new_x] = '0';
+		}
+		mlx_put_image_to_window(game->mlx, game->win, game->ground,
+			game->p_x * 100, game->p_y * 100);
+		game->p_x = new_x;
+		game->p_y = new_y;
+		mlx_put_image_to_window(game->mlx, game->win, game->player,
+			game->p_x * 100, game->p_y * 100);
+		game->moves++;
+		printf("Moves: %d\n", game->moves);
+	}
 }
 
 int	main(int ac, char **av)
@@ -912,12 +877,12 @@ int	main(int ac, char **av)
 		printf("Error\n");
 		return (1);
 	}
-	check_line_len (av[1], 20);
-	max_line(av[1], 9);
+	check_line_len(av[1], 20);
+	check_map_height(av[1], 9);
 	check_rectangle(av[1]);
 	check_surrounded_by_1(av[1]);
 	check_characters(av[1]);
-	path_validator(av[1]);
+	validate_map_path(av[1]);
 	make_window(av[1]);
 	return (0);
 }

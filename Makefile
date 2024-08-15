@@ -1,5 +1,5 @@
 # Name of the executable
-NAME = your_program_name
+NAME = so_long
 
 # Compiler
 CC = cc
