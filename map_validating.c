@@ -38,8 +38,9 @@ typedef struct	s_game
 	int		moves;
 }			t_game;
 
-void initialize_game_struct(t_game *game) {
-    game->mlx = NULL;
+void initialize_game_struct(t_game *game)
+{
+game->mlx = NULL;
     game->win = NULL;
     game->img_wall = NULL;
     game->img_ground = NULL;
@@ -107,19 +108,38 @@ void free_images(t_game *game)
 
 void cleanup(t_game *game)
 {
-    free_images(game);
-    if (game->win)
+    // Free images if they were allocated
+    if (game->img_wall)
+        mlx_destroy_image(game->mlx, game->img_wall);
+    if (game->img_ground)
+        mlx_destroy_image(game->mlx, game->img_ground);
+    if (game->img_collectable)
+        mlx_destroy_image(game->mlx, game->img_collectable);
+    if (game->img_end)
+        mlx_destroy_image(game->mlx, game->img_end);
+    if (game->img_player)
+        mlx_destroy_image(game->mlx, game->img_player);
+
+    // Free the map if it was allocated
+    if (game->map)
     {
-        mlx_destroy_window(game->mlx, game->win);
-        game->win = NULL;
+        for (int i = 0; i < game->height; i++)
+        {
+            free(game->map[i]);
+        }
+        free(game->map);
     }
+
+    // Destroy the window and display if they were created
+    if (game->win)
+        mlx_destroy_window(game->mlx, game->win);
     if (game->mlx)
     {
         mlx_destroy_display(game->mlx);
         free(game->mlx);
-        game->mlx = NULL;
     }
 }
+
 
 void	handle_exit(t_game *game)
 {
@@ -661,26 +681,25 @@ void	allocate_map_memory(t_game *game, int fd, char *buffer)
 	}
 }
 
-void	process_map_char(t_game *game, char c, int x, int y)
+void process_map_char(t_game *game, char c, int x, int y)
 {
-	if (c == 'P')
-	{
-		game->player_x = x;
-		game->player_y = y;
-	}
-	else if (c == 'C')
-		game->collectables++;
-	if (c == '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x * 100, y * 100);
-	else if (c == '0')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_ground, x * 100, y * 100);
-	else if (c == 'C')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x * 100, y * 100);
-	else if (c == 'E')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_end, x * 100, y * 100);
-	else if (c == 'P')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_player, x * 100, y * 100);
+    if (c == 'P')
+    {
+        game->player_x = x;
+        game->player_y = y;
+    }
+    if (c == '1')
+        mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x * 100, y * 100);
+    else if (c == '0')
+        mlx_put_image_to_window(game->mlx, game->win, game->img_ground, x * 100, y * 100);
+    else if (c == 'C')
+        mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x * 100, y * 100);
+    else if (c == 'E')
+        mlx_put_image_to_window(game->mlx, game->win, game->img_end, x * 100, y * 100);
+    else if (c == 'P')
+        mlx_put_image_to_window(game->mlx, game->win, game->img_player, x * 100, y * 100);
 }
+
 
 void	read_and_draw_map(t_game *game, int fd, char *buffer)
 {
@@ -724,53 +743,44 @@ void	draw_map(t_game *game, const char *filename)
 	close(fd);
 }
 
-void	load_images(t_game *game)
+void load_images(t_game *game)
 {
-	game->img_wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &game->width, &game->height);
-	if (!game->img_wall)
-	{
-		free_images(game);
-		fprintf(stderr, "Error loading wall image\n");
-		cleanup(game);  // Clean up all resources
-		exit(1);
-	}
+    game->img_wall = mlx_xpm_file_to_image(game->mlx, "wall.xpm", &game->width, &game->height);
+    if (!game->img_wall)
+    {
+        cleanup(game);
+        exit(1);
+    }
 
-	game->img_ground = mlx_xpm_file_to_image(game->mlx, "ground.xpm", &game->width, &game->height);
-	if (!game->img_ground)
-	{
-		free_images(game);
-		fprintf(stderr, "Error loading ground image\n");
-		cleanup(game);  // Clean up all resources
-		exit(1);
-	}
+    game->img_ground = mlx_xpm_file_to_image(game->mlx, "ground.xpm", &game->width, &game->height);
+    if (!game->img_ground)
+    {
+        cleanup(game);
+        exit(1);
+    }
 
-	game->img_collectable = mlx_xpm_file_to_image(game->mlx, "collectable.xpm", &game->width, &game->height);
-	if (!game->img_collectable)
-	{
-		free_images(game);
-		fprintf(stderr, "Error loading collectable image\n");
-		cleanup(game);  // Clean up all resources
-		exit(1);
-	}
+    game->img_collectable = mlx_xpm_file_to_image(game->mlx, "collectable.xpm", &game->width, &game->height);
+    if (!game->img_collectable)
+    {
+        cleanup(game);
+        exit(1);
+    }
 
-	game->img_end = mlx_xpm_file_to_image(game->mlx, "end.xpm", &game->width, &game->height);
-	if (!game->img_end)
-	{
-		free_images(game);
-		fprintf(stderr, "Error loading end image\n");
-		cleanup(game);  // Clean up all resources
-		exit(1);
-	}
+    game->img_end = mlx_xpm_file_to_image(game->mlx, "end.xpm", &game->width, &game->height);
+    if (!game->img_end)
+    {
+        cleanup(game);
+        exit(1);
+    }
 
-	game->img_player = mlx_xpm_file_to_image(game->mlx, "player.xpm", &game->width, &game->height);
-	if (!game->img_player)
-	{
-		free_images(game);
-		fprintf(stderr, "Error loading player image\n");
-		cleanup(game);  // Clean up all resources
-		exit(1);
-	}
+    game->img_player = mlx_xpm_file_to_image(game->mlx, "player.xpm", &game->width, &game->height);
+    if (!game->img_player)
+    {
+        cleanup(game);
+        exit(1);
+    }
 }
+
 
 
 void	create_window(t_game *game, const char *filename)
@@ -863,21 +873,33 @@ int	is_move_valid(int new_x, int new_y, t_game *game)
 	return (1);
 }
 
-void	update_position(int new_x, int new_y, t_game *game)
+void update_position(int new_x, int new_y, t_game *game)
 {
-	if (game->map[new_y][new_x] == 'C')
-	{
-		game->collected++;
-		game->map[new_y][new_x] = '0';
-	}
-	mlx_put_image_to_window(game->mlx, game->win, game->img_ground,
-		game->player_x * 100, game->player_y * 100);
-	game->player_x = new_x;
-	game->player_y = new_y;
-	mlx_put_image_to_window(game->mlx, game->win, game->img_player,
-		game->player_x * 100, game->player_y * 100);
-	game->moves++;
-	printf("Moves: %d\n", game->moves);
+    // Check if the player is trying to move to a different position
+    if (new_x != game->player_x || new_y != game->player_y)
+    {
+        if (game->map[new_y][new_x] == 'C')
+        {
+            game->collected++;
+            game->map[new_y][new_x] = '0';
+        }
+
+        // Clear the player's previous position
+        mlx_put_image_to_window(game->mlx, game->win, game->img_ground,
+            game->player_x * 100, game->player_y * 100);
+        
+        // Update the player's position
+        game->player_x = new_x;
+        game->player_y = new_y;
+
+        // Draw the player at the new position
+        mlx_put_image_to_window(game->mlx, game->win, game->img_player,
+            game->player_x * 100, game->player_y * 100);
+
+        // Increment the move counter
+        game->moves++;
+        printf("Moves: %d\n", game->moves);
+    }
 }
 
 int	main(int ac, char **av)
