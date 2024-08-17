@@ -1,3 +1,0 @@
-MLX_FLAGS = -lmlx -lXext -lX11
-
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./so_long a.ber

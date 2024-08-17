@@ -5,13 +5,16 @@ NAME = so_long
 CC = cc
 
 # Flags for the compiler
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -Iinclude
 
 # Libraries to link against
 LIBS = -lmlx -lXext -lX11
 
 # Source files
-SRCS = $(wildcard *.c)
+SRCS = src/chars_checker.c src/errors.c src/exit.c src/free.c src/game_controls.c \
+       src/game_init.c src/get_next_line.c src/get_next_line_utils.c src/image_handling.c \
+       src/main.c src/map_drawing.c src/path_validator.c src/rectangle.c \
+       src/surrounded_checker.c src/w_h_checker.c src/map_utils.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
@@ -33,8 +36,8 @@ fclean: clean
 # Rule to recompile everything
 re: fclean all
 
-# Rule to run valgrind without suppression for mlx and output in terminal
-valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=/dev/null ./$(NAME) a.ber
+# Rule to check the code against 42 Norm
+norm:
+	norminette $(SRCS) include/*.h
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm
