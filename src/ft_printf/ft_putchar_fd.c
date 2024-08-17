@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:44:18 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:19:52 by pghajard         ###   ########.fr       */
+/*   Created: 2024/04/11 16:50:40 by pghajard          #+#    #+#             */
+/*   Updated: 2024/04/29 17:07:22 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-void	handle_error(const char *message, int fd)
+int	ft_putchar_fd(char c, int fd)
 {
-	ft_printf("%s", message);
-	if (fd >= 0)
-		close(fd);
-	exit(EXIT_FAILURE);
-}
-
-void	ft_error(const char *msg, int fd, char *buffer)
-{
-	if (fd >= 0)
-		close(fd);
-	if (buffer)
-		free(buffer);
-	ft_printf("%s", msg);
-	exit(1);
+	return (write(fd, &c, 1));
 }

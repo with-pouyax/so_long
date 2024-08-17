@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pouyax <pouyax@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 09:05:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/10 02:01:27 by pouyax           ###   ########.fr       */
+/*   Updated: 2024/08/17 18:21:30 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/stat.h>
-// test
-# include <fcntl.h>
-# include <stdio.h>
 
 size_t	ft_strlen(char *s);
 void	*ft_memmove(void *dest, const void *src, size_t n);

@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 17:37:16 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:16:04 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_file_extension(char *filename)
 	len = ft_strlen(filename);
 	if (len < 4 || ft_strcmp(filename + len - 4, ".ber") != 0)
 	{
-		printf("Error: Invalid file extension. Expected .ber\n");
+		ft_printf("Error: Invalid file extension. Expected .ber\n");
 		return (0);
 	}
 	return (1);
@@ -37,18 +37,15 @@ int	check_file_extension(char *filename)
 
 int	main(int ac, char **av)
 {
-	int	size;
-
-	size = 10;
 	if (ac != 2)
 	{
-		printf("Error");
+		ft_printf("Error");
 		return (1);
 	}
 	if (!check_file_extension(av[1]))
 		return (1);
-	check_line_len(av[1], 20);
-	check_map_height(av[1], 9);
+	check_line_len(av[1], MAX_WIDTH);
+	check_map_height(av[1], MAX_HEIGHT);
 	check_rectangle(av[1]);
 	check_surrounded_by_1(av[1]);
 	check_characters(av[1]);

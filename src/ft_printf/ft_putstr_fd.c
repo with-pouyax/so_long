@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:44:18 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:19:52 by pghajard         ###   ########.fr       */
+/*   Created: 2024/04/11 16:44:45 by pghajard          #+#    #+#             */
+/*   Updated: 2024/04/30 16:37:49 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-void	handle_error(const char *message, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
-	ft_printf("%s", message);
-	if (fd >= 0)
-		close(fd);
-	exit(EXIT_FAILURE);
-}
+	size_t	i;
+	int		count;
 
-void	ft_error(const char *msg, int fd, char *buffer)
-{
-	if (fd >= 0)
-		close(fd);
-	if (buffer)
-		free(buffer);
-	ft_printf("%s", msg);
-	exit(1);
+	i = 0;
+	count = 0;
+	if (!s)
+		return (write(1, "(null)", 6));
+	while (s[i])
+	{
+		count += write(fd, &s[i], 1);
+		i++;
+	}
+	return (count);
 }

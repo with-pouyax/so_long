@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:38:46 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:26:34 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 # include <string.h>
 # include <mlx.h>
 # include "get_next_line.h"
+# include "../src/ft_printf/ft_printf.h"
 
 // Constants
 # define INITIAL_MAP_SIZE 10
-# define MAX_WIDTH 1000  // Example maximum width
-# define MAX_HEIGHT 1000 // Example maximum height
+# define MAX_WIDTH 20
+# define MAX_HEIGHT 9
 
 // Struct Definitions
 typedef struct s_count

@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 17:28:26 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:15:47 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	create_window(t_game *game, const char *filename)
 	game->height * 100, "Map Window");
 	if (game->win == NULL)
 	{
-		printf("%s", "Error creating window\n");
+		ft_printf("%s", "Error creating window\n");
 		exit(1);
 	}
 	load_images(game);
@@ -60,7 +60,7 @@ void	init_game(const char *filename, t_game *game)
 	game->mlx = mlx_init();
 	if (game->mlx == NULL)
 	{
-		printf("%s", "Error initializing MiniLibX\n");
+		ft_printf("%s", "Error initializing MiniLibX\n");
 		exit(1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:51:45 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:16:21 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_map_height(char *str, int size)
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("Error");
+		ft_printf("Error");
 		return ;
 	}
 	line = get_next_line(fd);
@@ -35,7 +35,7 @@ void	check_map_height(char *str, int size)
 	close(fd);
 	if (i > size || i < 3)
 	{
-		printf("Height exceeds limits\n");
+		ft_printf("Height exceeds limits\n");
 		exit(1);
 	}
 }
@@ -58,7 +58,7 @@ void	validate_line(char *line, int size, int fd)
 	{
 		free(line);
 		close(fd);
-		printf("Line length error\n");
+		ft_printf("Line length error\n");
 		exit(EXIT_FAILURE);
 	}
 }

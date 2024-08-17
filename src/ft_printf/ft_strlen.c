@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:44:18 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:19:52 by pghajard         ###   ########.fr       */
+/*   Created: 2024/04/04 16:55:56 by pghajard          #+#    #+#             */
+/*   Updated: 2024/08/17 21:53:15 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-void	handle_error(const char *message, int fd)
+size_t	ft_p_strlen(const char *s)
 {
-	ft_printf("%s", message);
-	if (fd >= 0)
-		close(fd);
-	exit(EXIT_FAILURE);
-}
+	size_t	i;
 
-void	ft_error(const char *msg, int fd, char *buffer)
-{
-	if (fd >= 0)
-		close(fd);
-	if (buffer)
-		free(buffer);
-	ft_printf("%s", msg);
-	exit(1);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }

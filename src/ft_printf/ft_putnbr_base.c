@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:44:18 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:19:52 by pghajard         ###   ########.fr       */
+/*   Created: 2024/04/29 16:29:24 by pghajard          #+#    #+#             */
+/*   Updated: 2024/05/02 13:37:29 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-void	handle_error(const char *message, int fd)
+int	ft_putnbr_base(long n, int base)
 {
-	ft_printf("%s", message);
-	if (fd >= 0)
-		close(fd);
-	exit(EXIT_FAILURE);
-}
+	int		count;
+	char	*symbols;
 
-void	ft_error(const char *msg, int fd, char *buffer)
-{
-	if (fd >= 0)
-		close(fd);
-	if (buffer)
-		free(buffer);
-	ft_printf("%s", msg);
-	exit(1);
+	symbols = "0123456789abcdef";
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		return (ft_putnbr_base(-n, base) + 1);
+	}
+	else if (n < base)
+		return (ft_putchar_fd(symbols[n], 1));
+	else
+	{
+		count = ft_putnbr_base(n / base, base);
+		return (count + ft_putnbr_base(n % base, base));
+	}
 }

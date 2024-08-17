@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:44:35 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:44:02 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:14:48 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	cleanup2(t_game *game, int fd, char *buffer, int i)
 	if (fd >= 0)
 		close(fd);
 	cleanup(game);
-	printf("error");
+	ft_printf("error");
 	exit(1);
 }

@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:44:18 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:19:52 by pghajard         ###   ########.fr       */
+/*   Created: 2024/04/29 15:42:37 by pghajard          #+#    #+#             */
+/*   Updated: 2024/08/17 21:46:51 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-void	handle_error(const char *message, int fd)
-{
-	ft_printf("%s", message);
-	if (fd >= 0)
-		close(fd);
-	exit(EXIT_FAILURE);
-}
+# include <unistd.h>
+# include <stdarg.h>
+# include <stdio.h>
 
-void	ft_error(const char *msg, int fd, char *buffer)
-{
-	if (fd >= 0)
-		close(fd);
-	if (buffer)
-		free(buffer);
-	ft_printf("%s", msg);
-	exit(1);
-}
+int		ft_putchar_fd(char c, int fd);
+int		ft_putstr_fd(char *s, int fd);
+int		ft_putnbr_base(long n, int base);
+int		ft_putnbr_base_upper(long n, int base);
+size_t	ft_p_strlen(const char *s);
+int		ft_putpointer(void *adress);
+int		ft_printf(const char *format, ...);
+
+#endif

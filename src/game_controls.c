@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:33:33 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:40:22 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 21:15:04 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	update_position(int new_x, int new_y, t_game *game)
 		mlx_put_image_to_window(game->mlx, game->win, game->player,
 			game->p_x * 100, game->p_y * 100);
 		game->moves++;
-		printf("Moves: %d\n", game->moves);
+		ft_printf("Moves: %d\n", game->moves);
 	}
 }
 
