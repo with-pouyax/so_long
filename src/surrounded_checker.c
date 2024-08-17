@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:26 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:59:35 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 22:56:15 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	process_file_lines(int fd)
 	{
 		if (last_line)
 			check_middle_line(last_line, fd);
-		free(last_line);  
+		free(last_line);
 		last_line = line;
 		line = get_next_line(fd);
 	}

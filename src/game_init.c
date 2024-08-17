@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:34:09 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 17:27:39 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/17 22:57:58 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int line_length, int first_line)
 		*width = line_length;
 		if (*width > MAX_WIDTH)
 		{
-			printf("%s", "Line width exceeds maximum allowed size\n");
+			ft_printf("%s", "Line width exceeds maximum allowed size\n");
 			exit(1);
 		}
 	}
 	(*height)++;
 	if (*height > MAX_HEIGHT)
 	{
-		printf("%s", "Number of lines exceeds maximum allowed size\n");
+		ft_printf("%s", "Number of lines exceeds maximum allowed size\n");
 		exit(1);
 	}
 }
