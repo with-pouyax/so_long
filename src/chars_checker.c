@@ -6,23 +6,31 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:52 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 20:26:31 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 21:29:02 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void	exit_with_error12(char *message, int fd)
+{
+	if (fd >= 0)
+		close(fd);
+	ft_printf("%s\n", message);
+	exit(EXIT_FAILURE);
+}
+
 void	validate_counts(t_count counts)
 {
 	if (counts.p_count != 1)
-		exit_with_error("Error: 'P' count != 1", -1, NULL);
+		exit_with_error12("Error: 'P' count != 1", -1);
 	if (counts.c_count < 1)
-		exit_with_error("Error: 'C' count < 1", -1, NULL);
+		exit_with_error12("Error: 'C' count < 1", -1);
 	if (counts.e_count != 1)
-		exit_with_error("Error: 'E' count != 1", -1, NULL);
+		exit_with_error12("Error: 'E' count != 1", -1);
 }
 
-void	update_counts(t_count *counts, char c, int fd, char *line)
+void	update_counts(t_count *counts, char c, int fd)
 {
 	if (c == 'P')
 		counts->p_count++;
@@ -31,33 +39,29 @@ void	update_counts(t_count *counts, char c, int fd, char *line)
 	else if (c == 'E')
 		counts->e_count++;
 	else if (c != '0' && c != '1' && c != '\n')
-		exit_with_error("Error: Invalid character found", fd, line);
+		exit_with_error12("Error: Invalid character found", fd);
 }
 
 void	check_characters(char *str)
 {
 	t_count	counts;
-	char	*line;
 	int		fd;
-	int		i;
+	char	c;
 
 	counts.p_count = 0;
 	counts.c_count = 0;
 	counts.e_count = 0;
+
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		exit_with_error("Error opening file", fd, NULL);
-	line = get_next_line(fd);
-	while (line != NULL)
+		exit_with_error12("Error opening file", fd);
+
+	while (read(fd, &c, 1) == 1)
 	{
-		i = 0;
-		while (line[i])
-		{
-			update_counts(&counts, line[i++], fd, line);
-		}
-		free(line);
-		line = get_next_line(fd);
+		update_counts(&counts, c, fd);
 	}
+
 	close(fd);
 	validate_counts(counts);
 }
+

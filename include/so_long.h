@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 20:36:05 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 21:26:03 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	track_map_info(char *line, t_count *counts, int *height);
 char	**expand_map(t_map_info *info, char *line);
 void	validate_map_path(char *filename);
 void	validate_counts(t_count counts);
-void	update_counts(t_count *counts, char c, int fd, char *line);
+void	update_counts(t_count *counts, char c, int fd);
 void	check_characters(char *str);
 void	check_middle_line(char *line, int fd);
 int		is_line_all_ones(char *line);
