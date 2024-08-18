@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:26:34 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:37:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ void	check_line_length(char *line, int expected_len, int fd);
 int		get_line_length(char *line);
 void	check_rectangle(char *str);
 void	check_map_height(char *str, int size);
-int		validate_line_len(char *str, int size);
-void	validate_line(char *line, int size, int fd);
+int	validate_line_len(int current_len, int size);
+void	validate_line(int current_len, int size, int fd);
 void	process_lines(int fd, int size);
 void	check_line_len(char *str, int size);
 void	draw_map(t_game *game, const char *filename);
