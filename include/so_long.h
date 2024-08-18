@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 20:01:56 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:36:05 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int		is_line_all_ones(char *line);
 void	check_first_last_line(char *line, int fd);
 void	process_file_lines(int fd);
 void	check_surrounded_by_1(char *str);
-void	check_line_length(char *line, int expected_len, int fd);
-int		get_line_length(char *line);
+void	check_line_length(int current_len, int expected_len, int fd);
+int	get_line_length(int fd);
 void	check_rectangle(char *str);
 void	check_map_height(char *str, int size);
 int	validate_line_len(int current_len, int size);

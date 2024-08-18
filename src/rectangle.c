@@ -6,64 +6,85 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:19 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 17:38:12 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:34:55 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	get_line_length(char *line)
+void	exit_with_error11(char *message, int fd)
 {
-	int	len;
+	if (fd >= 0)
+		close(fd);
+	ft_printf("%s\n", message);
+	exit(EXIT_FAILURE);
+}
 
-	len = ft_strlen(line);
-	if (line[len - 1] == '\n')
-		len--;
+int	get_line_length(int fd)
+{
+	int		len;
+	char	c;
+
+	len = 0;
+	while (read(fd, &c, 1) == 1 && c != '\n')
+		len++;
 	return (len);
 }
 
-void	check_line_length(char *line, int expected_len, int fd)
+void	check_line_length(int current_len, int expected_len, int fd)
 {
-	int	line_len;
-
-	line_len = get_line_length(line);
-	if (line_len != expected_len)
-		exit_with_error("Not a rectangle", fd, line);
+	if (current_len != expected_len)
+		exit_with_error11("Not a rectangle", fd);
 }
 
-void	validate_file_lines(int fd, int count)
+void	validate_file_lines(int fd, int expected_len)
 {
-	char	*line;
-	char	*last_line;
+	char	c;
+	int		current_len;
+	int		last_char_was_newline;
 
-	last_line = NULL;
-	line = get_next_line(fd);
-	while (line != NULL)
+	current_len = 0;
+	last_char_was_newline = 1;
+
+	while (read(fd, &c, 1) == 1)
 	{
-		check_line_length(line, count, fd);
-		free(last_line);
-		last_line = line;
-		line = get_next_line(fd);
+		if (c == '\n')
+		{
+			check_line_length(current_len, expected_len, fd);
+			current_len = 0;
+			last_char_was_newline = 1;
+		}
+		else
+		{
+			current_len++;
+			last_char_was_newline = 0;
+		}
 	}
-	if (last_line && last_line[ft_strlen(last_line) - 1] == '\n')
-		exit_with_error("Error: Extra newline after last line", fd, last_line);
-	free(last_line);
+
+	// Handle the case where the last line doesn't end with a newline
+	if (!last_char_was_newline)
+		check_line_length(current_len, expected_len, fd);
+	else
+		exit_with_error11("Error: Extra newline after last line", fd);
 }
 
 void	check_rectangle(char *str)
 {
 	int		fd;
 	int		count;
-	char	*line;
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		exit_with_error("Error opening file", fd, NULL);
-	line = get_next_line(fd);
-	if (line == NULL)
-		exit_with_error("File is empty or error reading file", fd, NULL);
-	count = get_line_length(line);
-	free(line);
+		exit_with_error11("Error opening file", fd);
+
+	count = get_line_length(fd);
+	if (count == 0)
+		exit_with_error11("File is empty or error reading file", fd);
+
+	// Reset file descriptor to the beginning of the file for validation
+	if (lseek(fd, 0, SEEK_SET) < 0)
+		exit_with_error11("Error resetting file pointer", fd);
+
 	validate_file_lines(fd, count);
 	close(fd);
 }
