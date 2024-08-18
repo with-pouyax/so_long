@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 21:26:03 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:36:36 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_error(const char *msg, int fd, char *buffer);
 int		close_window(t_game *game);
 void	free_map_memory(char **map, int height);
 void	track_map_info(char *line, t_count *counts, int *height);
-char	**expand_map(t_map_info *info, char *line);
+char	**expand_map(t_map_info *info);
 void	validate_map_path(char *filename);
 void	validate_counts(t_count counts);
 void	update_counts(t_count *counts, char c, int fd);
@@ -129,5 +129,8 @@ void	flood_fill(t_map_params *params, int x, int y, t_count *counts);
 void	validate_start_pos(t_count counts, t_map_params *params);
 void	validate_path(t_count counts, t_map_params *params);
 char	**read_map(int fd, t_count *counts, int *width, int *height);
+
+
+void exit_with_error33(char *message, int fd);
 
 #endif // SO_LONG_H

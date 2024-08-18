@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:29:13 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 20:33:18 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:29:58 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,12 @@ void	handle_exit(t_game *game)
 	ft_printf("Congratulations, you've won!\n");
 	cleanup(game);
 	exit(0);
+}
+
+void	exit_with_error33(char *message, int fd)
+{
+	if (fd >= 0)
+		close(fd);
+	ft_printf("%s\n", message);
+	exit(EXIT_FAILURE);
 }
