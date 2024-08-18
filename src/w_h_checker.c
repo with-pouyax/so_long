@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 19:34:40 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:00:03 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,41 @@
 
 void	check_map_height(char *str, int size)
 {
-	char	*line;
 	int		fd;
-	int		i;
+	int		line_count;
+	char	c;
+	int		is_line_started;
 
-	i = 0;
+	line_count = 0;
+	is_line_started = 0;
+
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("Error");
+		ft_printf("Error opening file\n");
 		return ;
 	}
-	line = get_next_line(fd);
-	while (line != NULL)
+
+	while (read(fd, &c, 1) == 1)
 	{
-		i++;
-		free(line);
-		line = get_next_line(fd);
+		if (c == '\n')
+		{
+			line_count++;
+			is_line_started = 0;
+		}
+		else if (!is_line_started)
+		{
+			is_line_started = 1;
+		}
 	}
+
+	// Count the last line if the file doesn't end with a newline
+	if (is_line_started)
+		line_count++;
+
 	close(fd);
-	if (i > size || i < 3)
+
+	if (line_count > size || line_count < 3)
 	{
 		ft_printf("Height exceeds limits\n");
 		exit(1);
@@ -82,8 +97,6 @@ void	process_lines(int fd, int size)
 			current_len++;
 		}
 	}
-
-	// Handle the last line if the file doesn't end with a newline
 	if (current_len > 0)
 		validate_line(current_len, size, fd);
 }
