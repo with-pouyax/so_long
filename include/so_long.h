@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/22 17:23:13 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:43:04 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,14 @@ void	get_map_dimensions(const char *filename, int *width, int *height);
 void	init_game(const char *filename, t_game *game);
 void	make_window(const char *filename);
 void	validate_file_lines(int fd, int count);
+
+
+
+
+
+
+void validate_map_path(char *filename);
+
 
 
 void exit_with_error33(char *message, int fd);
