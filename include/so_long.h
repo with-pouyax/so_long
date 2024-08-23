@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/22 18:43:04 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:51:52 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // Constants
 # define INITIAL_MAP_SIZE 10
 # define MAX_WIDTH 20
-# define MAX_HEIGHT 3
+# define MAX_HEIGHT 4
 
 // Struct Definitions
 typedef struct s_count
