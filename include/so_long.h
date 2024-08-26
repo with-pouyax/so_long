@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/23 16:51:52 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:35:46 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <mlx.h>
-# include "get_next_line.h"
+
 # include "../src/ft_printf/ft_printf.h"
 
 // Constants
@@ -125,6 +125,7 @@ void	validate_file_lines(int fd, int count);
 
 
 
+size_t	ft_strlen(const char *s);
 
 
 
