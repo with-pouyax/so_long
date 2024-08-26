@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:59 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:28:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	process_lines(int fd, int size)
 
 	current_len = 0;
 	first_line_read = 0;
-
 	while (read(fd, &c, 1) == 1)
 	{
 		if (c == '\n')
