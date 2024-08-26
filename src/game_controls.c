@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:33:33 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:15:04 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:24:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	close_window(t_game *game)
 {

@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:42 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:46:23 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:35 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	process_map_char(t_game *game, char c, int x, int y)
 {

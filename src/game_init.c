@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:34:09 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 22:57:58 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:03 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	init_game_struct(t_game *game)
 {

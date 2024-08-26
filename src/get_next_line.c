@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:16:21 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:47:53 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:13 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../include/so_long.h"
 
 int	ft_new_line(char *temp)
 {

@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:44:35 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:14:48 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:24:54 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	free_map_memory(char **map, int height)
 {

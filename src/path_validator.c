@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:11:37 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:42 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 
 

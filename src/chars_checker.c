@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:52 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/22 18:51:43 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:24:37 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	exit_with_error12(char *message, int fd)
 {

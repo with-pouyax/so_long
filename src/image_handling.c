@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 21:15:47 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:18 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	load_image(t_game *game, void **image, char *file_name)
 {

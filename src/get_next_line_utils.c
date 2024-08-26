@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 09:58:55 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 16:47:34 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:09 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../include/so_long.h"
 
 void	ft_free(char **p)
 {

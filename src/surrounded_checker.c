@@ -6,12 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:26 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:17:57 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:51 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
-
+#include "../include/so_long.h"
 
 void	check_middle_line(char *line, int fd)
 {

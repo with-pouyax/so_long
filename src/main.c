@@ -6,11 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/18 20:38:18 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:29 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
