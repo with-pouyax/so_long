@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:57:11 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 15:38:48 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:46:43 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,28 @@ void	process_file_lines(int fd)
 {
 	char	*line;
 	char	*last_line;
+	int		flag;
 
+	flag = 0;
 	last_line = NULL;
-	line = read_line(fd);
+	line = read_line(fd, &flag);
 	if (line == NULL)
 		exit_with_error("File is empty or error reading file", fd, NULL);
 	check_first_last_line(line, fd);
 	free(line);
-	line = read_line(fd);
+	line = read_line(fd, &flag);
 	while (line != NULL)
 	{
 		if (last_line)
 			check_middle_line(line, last_line, fd);
 		free(last_line);
 		last_line = line;
-		line = read_line(fd);
+		line = read_line(fd, &flag);
+		if (flag)
+		{
+			free(last_line);
+			exit_with_error("Error reading file", fd, NULL);
+		}
 	}
 	if (last_line)
 		check_first_last_line(last_line, fd);

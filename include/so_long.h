@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 15:06:39 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:32:46 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	finalize_line(t_map_params *params, int *y);
 int		process_char(char c, t_map_params *params, t_count *counts, int y);
 char	**read_map(int fd, t_count *counts, int *width, int *height);
 void	validate_map_path(char *filename);
-char	*read_line(int fd);
+char	*read_line(int fd, int *flag);
 void	exit_with_error33(char *message, int fd);
 
 #endif
