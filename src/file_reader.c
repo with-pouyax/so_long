@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:15:56 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:16:13 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:37:46 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*allocate_line(int fd)
 {
 	char	*line;
 
+	if (fd <= 0)
+		exit_with_error("Memory allocation failed", fd, NULL);
 	line = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!line)
 		exit_with_error("Memory allocation failed", fd, NULL);
@@ -61,7 +63,8 @@ char	*read_line(int fd)
 		exit_with_error("Invalid file descriptor", fd, NULL);
 	line = allocate_line(fd);
 	i = 0;
-	while ((ret = read(fd, &c, 1)) == 1)
+	ret = read(fd, &c, 1);
+	while (ret == 1)
 	{
 		if (i < BUFFER_SIZE)
 		{
@@ -70,10 +73,9 @@ char	*read_line(int fd)
 				break ;
 		}
 		else
-		{
-			free(line);
 			exit_with_error("Line too long for buffer", fd, NULL);
-		}
+		ret = read(fd, &c, 1);
 	}
 	return (finalize_read_line(line, i, ret, fd));
 }
+

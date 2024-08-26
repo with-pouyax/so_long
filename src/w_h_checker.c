@@ -6,54 +6,50 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 12:28:59 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:51:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	check_map_height(char *str, int size)
+void	handle_line_count(int fd, int *line_count)
 {
-	int		fd;
-	int		line_count;
 	char	c;
 	int		is_line_started;
 
-	line_count = 0;
+	*line_count = 0;
 	is_line_started = 0;
-
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf("Error opening file\n");
-		return ;
-	}
-
 	while (read(fd, &c, 1) == 1)
 	{
 		if (c == '\n')
 		{
-			line_count++;
+			(*line_count)++;
 			is_line_started = 0;
 		}
 		else if (!is_line_started)
-		{
 			is_line_started = 1;
-		}
 	}
-
-	// Count the last line if the file doesn't end with a newline
 	if (is_line_started)
-		line_count++;
+		(*line_count)++;
+}
 
+void	check_map_height(char *str, int size)
+{
+	int		fd;
+	int		line_count;
+
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+		return ((void)ft_printf("Error opening file\n"));
+	handle_line_count(fd, &line_count);
 	close(fd);
-
 	if (line_count > size || line_count < 3)
 	{
 		ft_printf("Height exceeds limits\n");
 		exit(1);
 	}
 }
+
 
 int	validate_line_len(int current_len, int size)
 {
@@ -89,7 +85,7 @@ void	process_lines(int fd, int size)
 
 			validate_line(current_len, size, fd);
 			first_line_read = 1;
-			current_len = 0; // Reset length for the next line
+			current_len = 0;
 		}
 		else
 		{
