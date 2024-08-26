@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   surrounded_checker.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/26 13:57:11 by pghajard          #+#    #+#             */
+/*   Updated: 2024/08/26 14:07:23 by pghajard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/so_long.h"
 
 void	check_middle_line(char *l, char *line, int fd)
@@ -38,22 +50,42 @@ void	check_first_last_line(char *line, int fd)
 		exit_with_error("Not surrounded by 1 (first or last line)", fd, line);
 }
 
-#define BUFFER_SIZE 1024
+char	*allocate_line(int fd)
+{
+	char	*line;
+
+	line = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!line)
+		exit_with_error("Memory allocation failed", fd, NULL);
+	return (line);
+}
+
+char	*finalize_read_line(char *line, int i, ssize_t ret, int fd)  // Renamed function
+{
+	if (ret == -1)
+	{
+		free(line);
+		exit_with_error("Error reading file", fd, NULL);
+	}
+	if (i == 0)
+	{
+		free(line);
+		return (NULL);
+	}
+	line[i] = '\0';
+	return (line);
+}
 
 char	*read_line(int fd)
 {
 	char	*line;
 	char	c;
 	int		i;
-	ssize_t ret;
+	ssize_t	ret;
 
 	if (fd <= 0)
 		exit_with_error("Invalid file descriptor", fd, NULL);
-
-	line = malloc(BUFFER_SIZE + 1 * sizeof(char)); // Allocate and initialize memory
-	if (!line)
-		exit_with_error("Memory allocation failed", fd, NULL);
-
+	line = allocate_line(fd);
 	i = 0;
 	while ((ret = read(fd, &c, 1)) == 1)
 	{
@@ -61,7 +93,7 @@ char	*read_line(int fd)
 		{
 			line[i++] = c;
 			if (c == '\n')
-				break;
+				break ;
 		}
 		else
 		{
@@ -69,24 +101,8 @@ char	*read_line(int fd)
 			exit_with_error("Line too long for buffer", fd, NULL);
 		}
 	}
-
-	if (ret == -1) // Handle read error
-	{
-		free(line);
-		exit_with_error("Error reading file", fd, NULL);
-	}
-
-	// If no bytes were read and no newline was found, return NULL
-	if (i == 0)
-	{
-		free(line);
-		return (NULL);
-	}
-
-	line[i] = '\0'; // Null-terminate the string
-	return (line);
+	return (finalize_read_line(line, i, ret, fd));  // Updated function call
 }
-
 
 
 void	process_file_lines(int fd)

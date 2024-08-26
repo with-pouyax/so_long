@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:19 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:47 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:48:11 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	validate_file_lines(int fd, int expected_len)
 
 	current_len = 0;
 	last_char_was_newline = 1;
-
 	while (read(fd, &c, 1) == 1)
 	{
 		if (c == '\n')
@@ -60,8 +59,6 @@ void	validate_file_lines(int fd, int expected_len)
 			last_char_was_newline = 0;
 		}
 	}
-
-	// Handle the case where the last line doesn't end with a newline
 	if (!last_char_was_newline)
 		check_line_length(current_len, expected_len, fd);
 	else
@@ -80,8 +77,6 @@ void	check_rectangle(char *str)
 	count = get_line_length(fd);
 	if (count == 0)
 		exit_with_error11("File is empty or error reading file", fd);
-
-	// Reset file descriptor to the beginning of the file for validation
 	if (lseek(fd, 0, SEEK_SET) < 0)
 		exit_with_error11("Error resetting file pointer", fd);
 
