@@ -5,7 +5,7 @@ NAME = so_long
 CC = cc
 
 # Flags for the compiler
-CFLAGS = -Wall -Wextra -Werror -g -Iinclude
+CFLAGS = -Wall -Wextra -Werror -g 
 
 # Libraries to link against
 LIBS = -lmlx -lXext -lX11
