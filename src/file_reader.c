@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:15:56 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:37:46 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:39:27 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ char	*read_line(int fd)
 	}
 	return (finalize_read_line(line, i, ret, fd));
 }
-

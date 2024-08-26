@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:57:06 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:57:14 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:54:34 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	process_lines(int fd, int size)
 		{
 			if (!first_line_read && current_len == 0)
 				handle_error("Unexpected empty first line", fd);
-
 			validate_line(current_len, size, fd);
 			first_line_read = 1;
 			current_len = 0;

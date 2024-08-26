@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:28:54 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:03:32 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*allocate_map_line(int y, int width)
 	return (line);
 }
 
-void finalize_line(t_map_params *params, int *y)
+void	finalize_line(t_map_params *params, int *y)
 {
 	params->map[*y][params->line_len] = '\0';
 	if (*y == 0)
@@ -48,7 +48,7 @@ void finalize_line(t_map_params *params, int *y)
 	params->line_len = 0;
 }
 
-int process_char(char c, t_map_params *params, t_count *counts, int y)
+int	process_char(char c, t_map_params *params, t_count *counts, int y)
 {
 	if (params->line_len == 0)
 	{

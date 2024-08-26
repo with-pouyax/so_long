@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:55:00 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:06:39 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <mlx.h>
-
 # include "../src/ft_printf/ft_printf.h"
 
 // Constants
@@ -69,9 +68,6 @@ typedef struct s_map_params
 	int			line_len;
 }				t_map_params;
 
-
-
-
 // Function Prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
 int		is_move_valid(int new_x, int new_y, t_game *game);
@@ -111,33 +107,22 @@ void	load_image(t_game *game, void **image, char *file_name);
 void	load_images(t_game *game);
 void	create_window(t_game *game, const char *filename);
 void	init_game_struct(t_game *game);
-void	update_dimensions(int *width, int *height, \
-int line_length, int first_line);
+void	update_dimensions(int *width, int *height, int \
+line_length, int first_line);
 void	process_line(int fd, int *width, int *height);
 void	read_file_and_update(const char *filename, int *width, int *height);
 void	get_map_dimensions(const char *filename, int *width, int *height);
 void	init_game(const char *filename, t_game *game);
 void	make_window(const char *filename);
 void	validate_file_lines(int fd, int count);
-
-
-
 size_t	ft_strlen(const char *s);
-
 void	track_map_info(char c, int x, int y, t_count *counts);
 char	*allocate_map_line(int y, int width);
-void finalize_line(t_map_params *params, int *y);
-int process_char(char c, t_map_params *params, t_count *counts, int y);
+void	finalize_line(t_map_params *params, int *y);
+int		process_char(char c, t_map_params *params, t_count *counts, int y);
 char	**read_map(int fd, t_count *counts, int *width, int *height);
-void validate_map_path(char *filename);
-
-
-
+void	validate_map_path(char *filename);
 char	*read_line(int fd);
+void	exit_with_error33(char *message, int fd);
 
-
-
-
-void exit_with_error33(char *message, int fd);
-
-#endif // SO_LONG_H
+#endif

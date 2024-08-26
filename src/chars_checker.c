@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:52 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:24:37 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:36:30 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,13 @@ void	check_characters(char *str)
 	counts.p_count = 0;
 	counts.c_count = 0;
 	counts.e_count = 0;
-
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 		exit_with_error12("Error opening file", fd);
-
 	while (read(fd, &c, 1) == 1)
 	{
 		update_counts(&counts, c, fd);
 	}
-
 	close(fd);
 	validate_counts(counts);
 }
-
