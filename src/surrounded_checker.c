@@ -6,11 +6,12 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:26 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/17 22:56:15 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:17:57 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
 
 void	check_middle_line(char *line, int fd)
 {
@@ -47,25 +48,58 @@ void	check_first_last_line(char *line, int fd)
 		exit_with_error("Not surrounded by 1 (first or last line)", fd, line);
 }
 
+char	*read_line(int fd)
+{
+	char	*line;
+	char	c;
+	int		i;
+	int		buff_size = 1024;
+
+	line = malloc(buff_size);
+	if (!line)
+		exit_with_error("Memory allocation failed", fd, NULL);
+	i = 0;
+	while (read(fd, &c, 1) == 1)
+	{
+		if (i >= buff_size - 1)
+		{
+			buff_size *= 2;
+			line = realloc(line, buff_size);
+			if (!line)
+				exit_with_error("Memory allocation failed", fd, NULL);
+		}
+		line[i++] = c;
+		if (c == '\n')
+			break;
+	}
+	line[i] = '\0';
+	if (i == 0 && c != '\n')
+	{
+		free(line);
+		return (NULL);
+	}
+	return (line);
+}
+
 void	process_file_lines(int fd)
 {
 	char	*line;
 	char	*last_line;
 
 	last_line = NULL;
-	line = get_next_line(fd);
+	line = read_line(fd);
 	if (line == NULL)
 		exit_with_error("File is empty or error reading file", fd, NULL);
 	check_first_last_line(line, fd);
 	free(line);
-	line = get_next_line(fd);
+	line = read_line(fd);
 	while (line != NULL)
 	{
 		if (last_line)
 			check_middle_line(last_line, fd);
 		free(last_line);
 		last_line = line;
-		line = get_next_line(fd);
+		line = read_line(fd);
 	}
 	if (last_line)
 		check_first_last_line(last_line, fd);
