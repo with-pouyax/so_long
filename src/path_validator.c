@@ -6,14 +6,13 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 13:27:47 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:37:23 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-
-static void	flood_fill(t_map_params *params, int x, int y, t_count *counts)
+void	flood_fill(t_map_params *params, int x, int y, t_count *counts)
 {
 	if (x < 0 || y < 0 || x >= params->width || y >= params->height \
 	|| params->map[y][x] == '1' || params->map[y][x] == 'F')
@@ -33,7 +32,7 @@ static void	flood_fill(t_map_params *params, int x, int y, t_count *counts)
 	flood_fill(params, x, y - 1, counts);
 }
 
-static void	validate_start_pos(t_count counts, t_map_params *params)
+void	validate_start_pos(t_count counts, t_map_params *params)
 {
 	if (counts.p_x == -1 || counts.p_y == -1)
 	{
@@ -42,7 +41,7 @@ static void	validate_start_pos(t_count counts, t_map_params *params)
 	}
 }
 
-static void	validate_path(t_count counts, t_map_params *params)
+void	validate_path(t_count counts, t_map_params *params)
 {
 	if (counts.c_count != counts.e_count || !counts.exit_found)
 	{
@@ -50,85 +49,6 @@ static void	validate_path(t_count counts, t_map_params *params)
 		exit_with_error33("Error: No valid path to collect all \
 		collectibles and reach the exit", params->fd);
 	}
-}
-
-static void	track_map_info(char c, int x, int y, t_count *counts)
-{
-	if (c == 'P')
-	{
-		counts->p_x = x;
-		counts->p_y = y;
-		counts->p_count++;
-	}
-	else if (c == 'C')
-		counts->e_count++;
-	else if (c == 'E')
-		counts->exit_found = 1;
-}
-
-static char	*allocate_map_line(int y, int width)
-{
-	char	*line;
-
-	if (y == 0)
-		line = malloc((MAX_WIDTH + 1) * sizeof(char));
-	else
-		line = malloc((width + 1) * sizeof(char));
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
-static void finalize_line(t_map_params *params, int *y)
-{
-	params->map[*y][params->line_len] = '\0';
-	if (*y == 0)
-		params->width = params->line_len;
-	(*y)++;
-	params->line_len = 0;
-}
-
-static int process_char(char c, t_map_params *params, t_count *counts, int y)
-{
-	if (params->line_len == 0)
-	{
-		params->map[y] = allocate_map_line(y, params->width);
-		if (!params->map[y])
-			return (-1);
-	}
-	params->map[y][params->line_len] = c;
-	track_map_info(c, params->line_len, y, counts);
-	params->line_len++;
-	return (0);
-}
-
-char	**read_map(int fd, t_count *counts, int *width, int *height)
-{
-	t_map_params	params;
-	char			c;
-	int				y;
-
-	params.map = malloc(MAX_HEIGHT * sizeof(char *));
-	if (!params.map)
-		exit_with_error33("Error: Memory allocation failed", fd);
-	params.fd = fd;
-	params.line_len = 0;
-	y = 0;
-	while (read(fd, &c, 1) == 1)
-	{
-		if (c == '\n')
-			finalize_line(&params, &y);
-		else if (process_char(c, &params, counts, y) == -1)
-		{
-			free_map_memory(params.map, y);
-			exit_with_error33("Error: Memory allocation failed", fd);
-		}
-	}
-	if (params.line_len != 0)
-		finalize_line(&params, &y);
-	*width = params.width;
-	*height = y;
-	return (params.map);
 }
 
 void	validate_map_path(char *filename)

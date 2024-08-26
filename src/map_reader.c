@@ -6,13 +6,27 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 13:16:43 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:36:47 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static char	*allocate_map_line(int y, int width)
+void	track_map_info(char c, int x, int y, t_count *counts)
+{
+	if (c == 'P')
+	{
+		counts->p_x = x;
+		counts->p_y = y;
+		counts->p_count++;
+	}
+	else if (c == 'C')
+		counts->e_count++;
+	else if (c == 'E')
+		counts->exit_found = 1;
+}
+
+char	*allocate_map_line(int y, int width)
 {
 	char	*line;
 
@@ -25,67 +39,54 @@ static char	*allocate_map_line(int y, int width)
 	return (line);
 }
 
-static void finalize_line(char **map, int *line_len, int *y, int *width)
+void finalize_line(t_map_params *params, int *y)
 {
-	map[*y][*line_len] = '\0';
+	params->map[*y][params->line_len] = '\0';
 	if (*y == 0)
-		*width = *line_len;
+		params->width = params->line_len;
 	(*y)++;
-	*line_len = 0;
+	params->line_len = 0;
 }
 
-static int process_char(char c, char **map, int *line_len, int y, t_count *counts, int width)
+int process_char(char c, t_map_params *params, t_count *counts, int y)
 {
-	if (*line_len == 0)
+	if (params->line_len == 0)
 	{
-		map[y] = allocate_map_line(y, width);
-		if (!map[y])
+		params->map[y] = allocate_map_line(y, params->width);
+		if (!params->map[y])
 			return (-1);
 	}
-	map[y][*line_len] = c;
-	track_map_info(c, *line_len, y, counts);
-	(*line_len)++;
+	params->map[y][params->line_len] = c;
+	track_map_info(c, params->line_len, y, counts);
+	params->line_len++;
 	return (0);
 }
 
 char	**read_map(int fd, t_count *counts, int *width, int *height)
 {
-	char	**map;
-	char	c;
-	int		line_len;
-	int		y;
+	t_map_params	params;
+	char			c;
+	int				y;
 
-	map = malloc(MAX_HEIGHT * sizeof(char *));
-	if (!map)
+	params.map = malloc(MAX_HEIGHT * sizeof(char *));
+	if (!params.map)
 		exit_with_error33("Error: Memory allocation failed", fd);
-	line_len = 0;
+	params.fd = fd;
+	params.line_len = 0;
 	y = 0;
 	while (read(fd, &c, 1) == 1)
 	{
 		if (c == '\n')
-			finalize_line(map, &line_len, &y, width);
-		else if (process_char(c, map, &line_len, y, counts, *width) == -1)
+			finalize_line(&params, &y);
+		else if (process_char(c, &params, counts, y) == -1)
 		{
-			free_map_memory(map, y);
+			free_map_memory(params.map, y);
 			exit_with_error33("Error: Memory allocation failed", fd);
 		}
 	}
-	if (line_len != 0)
-		finalize_line(map, &line_len, &y, width);
+	if (params.line_len != 0)
+		finalize_line(&params, &y);
+	*width = params.width;
 	*height = y;
-	return (map);
-}
-
-static void	track_map_info(char c, int x, int y, t_count *counts)
-{
-	if (c == 'P')
-	{
-		counts->p_x = x;
-		counts->p_y = y;
-		counts->p_count++;
-	}
-	else if (c == 'C')
-		counts->e_count++;
-	else if (c == 'E')
-		counts->exit_found = 1;
+	return (params.map);
 }
