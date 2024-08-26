@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   surrounded_checker.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 13:46:26 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:51 by pghajard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/so_long.h"
 
-void	check_middle_line(char *line, int fd)
+void	check_middle_line(char *l, char *line, int fd)
 {
 	int	len;
 
@@ -20,7 +8,10 @@ void	check_middle_line(char *line, int fd)
 	if (len > 0 && line[len - 1] == '\n')
 		len--;
 	if (line[0] != '1' || line[len - 1] != '1')
+	{
+		free(l);
 		exit_with_error("Error: Not surrounded by 1 (middle lines)", fd, line);
+	}
 }
 
 int	is_line_all_ones(char *line)
@@ -47,38 +38,56 @@ void	check_first_last_line(char *line, int fd)
 		exit_with_error("Not surrounded by 1 (first or last line)", fd, line);
 }
 
+#define BUFFER_SIZE 1024
+
 char	*read_line(int fd)
 {
 	char	*line;
 	char	c;
 	int		i;
-	int		buff_size = 1024;
+	ssize_t ret;
 
-	line = malloc(buff_size);
+	if (fd <= 0)
+		exit_with_error("Invalid file descriptor", fd, NULL);
+
+	line = malloc(BUFFER_SIZE + 1 * sizeof(char)); // Allocate and initialize memory
 	if (!line)
 		exit_with_error("Memory allocation failed", fd, NULL);
+
 	i = 0;
-	while (read(fd, &c, 1) == 1)
+	while ((ret = read(fd, &c, 1)) == 1)
 	{
-		if (i >= buff_size - 1)
+		if (i < BUFFER_SIZE)
 		{
-			buff_size *= 2;
-			line = realloc(line, buff_size);
-			if (!line)
-				exit_with_error("Memory allocation failed", fd, NULL);
+			line[i++] = c;
+			if (c == '\n')
+				break;
 		}
-		line[i++] = c;
-		if (c == '\n')
-			break;
+		else
+		{
+			free(line);
+			exit_with_error("Line too long for buffer", fd, NULL);
+		}
 	}
-	line[i] = '\0';
-	if (i == 0 && c != '\n')
+
+	if (ret == -1) // Handle read error
+	{
+		free(line);
+		exit_with_error("Error reading file", fd, NULL);
+	}
+
+	// If no bytes were read and no newline was found, return NULL
+	if (i == 0)
 	{
 		free(line);
 		return (NULL);
 	}
+
+	line[i] = '\0'; // Null-terminate the string
 	return (line);
 }
+
+
 
 void	process_file_lines(int fd)
 {
@@ -95,7 +104,7 @@ void	process_file_lines(int fd)
 	while (line != NULL)
 	{
 		if (last_line)
-			check_middle_line(last_line, fd);
+			check_middle_line(line ,last_line, fd);
 		free(last_line);
 		last_line = line;
 		line = read_line(fd);

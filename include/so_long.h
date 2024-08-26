@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:35:46 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:59:43 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	free_map_memory(char **map, int height);
 void	validate_counts(t_count counts);
 void	update_counts(t_count *counts, char c, int fd);
 void	check_characters(char *str);
-void	check_middle_line(char *line, int fd);
+void	check_middle_line(char *l, char *line, int fd);
 int		is_line_all_ones(char *line);
 void	check_first_last_line(char *line, int fd);
 void	process_file_lines(int fd);
