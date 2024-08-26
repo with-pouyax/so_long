@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 12:38:31 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:26:39 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,11 @@ typedef struct s_map_params
 	int			width;
 	int			height;
 	int			fd;
+	int			line_len;
 }				t_map_params;
 
-typedef struct s_map_info
-{
-	char		**map;
-	int			map_capacity;
-	int			height;
-	int			fd;
-}				t_map_info;
+
+
 
 // Function Prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
