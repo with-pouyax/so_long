@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:42 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:35 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:58:50 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,21 @@ void	read_and_draw_map(t_game *game, int fd, char *buffer)
 	}
 }
 
+void	handle_error_and_exit_1(int fd, \
+char **map, char *buffer, t_game *game)
+{
+	if (map)
+		free(map);
+	if (buffer)
+		free(buffer);
+	if (fd >= 0)
+		close(fd);
+	if (game)
+		cleanup_1(game);
+	ft_printf("%s", "Error");
+	exit(1);
+}
+
 void	allocate_map_memory(t_game *game, int fd, char *buffer)
 {
 	int	i;
@@ -79,7 +94,7 @@ void	allocate_map_memory(t_game *game, int fd, char *buffer)
 	{
 		game->map[i] = (char *)malloc(sizeof(char) * (game->width + 1));
 		if (!game->map[i])
-			return ;
+			handle_error_and_exit_1(fd, NULL, buffer, game);
 		i++;
 	}
 }

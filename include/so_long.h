@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 13:49:42 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:57:20 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	handle_error(const char *message, int fd);
 void	exit_with_error(char *message, int fd, char *line);
 void	handle_error_and_exit(int fd, char **map, char *buffer, t_game *game);
 void	cleanup(t_game *game);
+void	cleanup_1(t_game *game);
 void	free_images(t_game *game);
 void	free_map(t_game *game);
 void	handle_exit(t_game *game);
