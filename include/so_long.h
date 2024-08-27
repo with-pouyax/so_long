@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 17:32:46 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:09:14 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ char	**read_map(int fd, t_count *counts, int *width, int *height);
 void	validate_map_path(char *filename);
 char	*read_line(int fd, int *flag);
 void	exit_with_error33(char *message, int fd);
+void	check_middle_line(char *l, char *line, int fd);
 
 #endif

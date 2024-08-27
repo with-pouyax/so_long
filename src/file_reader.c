@@ -6,23 +6,25 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 14:15:56 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 17:44:50 by pghajard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   file_reader.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 13:57:11 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:07:23 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:08:30 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+void	check_middle_line(char *l, char *line, int fd)
+{
+	int	len;
+
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		len--;
+	if (line[0] != '1' || line[len - 1] != '1')
+	{
+		free(l);
+		exit_with_error("Error: Not surrounded by 1 (middle lines)", fd, line);
+	}
+}
 
 char	*allocate_line(int fd)
 {
@@ -33,7 +35,6 @@ char	*allocate_line(int fd)
 	line = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!line)
 		return (NULL);
-		// exit_with_error("Memory allocation failed", fd, NULL);
 	return (line);
 }
 
@@ -53,28 +54,17 @@ char	*finalize_read_line(char *line, int i, ssize_t ret, int fd)
 	return (line);
 }
 
-char	*read_line(int fd, int *flag)
+ssize_t	read_loop(int fd, char *line, int *i, int *flag)
 {
-	char	*line;
 	char	c;
-	int		i;
 	ssize_t	ret;
 
-	if (fd <= 0)
-		exit_with_error("Invalid file descriptor", fd, NULL);
-	line = allocate_line(fd);
-	if (!line)
-	{
-		*flag = 1;	
-		return (NULL);
-	}
-	i = 0;
 	ret = read(fd, &c, 1);
 	while (ret == 1)
 	{
-		if (i < BUFFER_SIZE)
+		if (*i < BUFFER_SIZE)
 		{
-			line[i++] = c;
+			line[(*i)++] = c;
 			if (c == '\n')
 				break ;
 		}
@@ -84,8 +74,30 @@ char	*read_line(int fd, int *flag)
 	}
 	if (ret == -1)
 	{
-		*flag = 1;	
-		return (free(line), NULL);
+		*flag = 1;
+		free(line);
+		return (-1);
 	}
+	return (ret);
+}
+
+char	*read_line(int fd, int *flag)
+{
+	char	*line;
+	int		i;
+	ssize_t	ret;
+
+	if (fd <= 0)
+		exit_with_error("Invalid file descriptor", fd, NULL);
+	line = allocate_line(fd);
+	if (!line)
+	{
+		*flag = 1;
+		return (NULL);
+	}
+	i = 0;
+	ret = read_loop(fd, line, &i, flag);
+	if (ret == -1)
+		return (NULL);
 	return (finalize_read_line(line, i, ret, fd));
 }
