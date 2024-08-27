@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:19 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 15:37:15 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:22:25 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	validate_file_lines(int fd, int expected_len)
 
 void	check_rectangle(char *str)
 {
-	int		fd;
-	int		count;
+	int	fd;
+	int	count;
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -76,8 +76,10 @@ void	check_rectangle(char *str)
 	count = get_line_length(fd);
 	if (count == 0)
 		exit_with_error11("File is empty or error reading file", fd);
-	if (lseek(fd, 0, SEEK_SET) < 0)
-		exit_with_error11("Error resetting file pointer", fd);
+	close(fd);
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+		exit_with_error11("Error reopening file", fd);
 	validate_file_lines(fd, count);
 	close(fd);
 }
