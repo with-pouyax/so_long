@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 17:57:20 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:00:20 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,15 @@ void	check_line_len(char *str, int size);
 void	draw_map(t_game *game, const char *filename);
 void	load_image(t_game *game, void **image, char *file_name);
 void	load_images(t_game *game);
-void	create_window(t_game *game, const char *filename);
+int		create_window(t_game *game, const char *filename);
 void	init_game_struct(t_game *game);
 void	update_dimensions(int *width, int *height, int \
 line_length, int first_line);
 void	process_line(int fd, int *width, int *height);
 void	read_file_and_update(const char *filename, int *width, int *height);
 void	get_map_dimensions(const char *filename, int *width, int *height);
-void	init_game(const char *filename, t_game *game);
-void	make_window(const char *filename);
+int		init_game(const char *filename, t_game *game);
+int		make_window(const char *filename);
 void	validate_file_lines(int fd, int count);
 size_t	ft_strlen(const char *s);
 void	track_map_info(char c, int x, int y, t_count *counts);

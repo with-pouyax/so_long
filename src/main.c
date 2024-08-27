@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 18:40:09 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:03:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,16 @@ int	main(int ac, char **av)
 	}
 	if (!check_file_extension(av[1]))
 		return (1);
-	/* check_line_len(av[1], MAX_WIDTH);
+	check_line_len(av[1], MAX_WIDTH);
 	check_map_height(av[1], MAX_HEIGHT);
 	check_rectangle(av[1]);
 	check_surrounded_by_1(av[1]);
 	check_characters(av[1]);
-	validate_map_path(av[1]); */
-	make_window(av[1]);
+	validate_map_path(av[1]);
+	if (!make_window(av[1]))
+	{
+		ft_printf("Failed to create window or load resources.\n");
+		return 1; // Exit with failure status
+	}
 	return (0);
 }
