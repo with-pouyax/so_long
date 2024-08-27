@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:34:09 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 17:05:17 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:55:08 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,48 @@ int line_length, int first_line)
 		exit(1);
 	}
 }
+void	process_buffer(char *buffer, int *line_length, int *width, int *height, int *first_line)
+{
+	if (buffer[0] == '\n')
+	{
+		update_dimensions(width, height, *line_length, *first_line);
+		*first_line = 0;
+		*line_length = 0;
+	}
+	else
+	{
+		(*line_length)++;
+	}
+}
 
 void	process_line(int fd, int *width, int *height)
 {
 	char	*buffer;
 	int		line_length;
 	int		first_line;
+	ssize_t bytes_read;
 
 	buffer = malloc(2 * sizeof(char));
 	if (!buffer)
 		ft_error("Error allocating memory", fd, NULL);
 	line_length = 0;
 	first_line = 1;
-	while (read(fd, buffer, 1) > 0)
+	bytes_read = read(fd, buffer, 1);
+	while (bytes_read > 0)
 	{
-		if (buffer[0] == '\n')
-		{
-			update_dimensions(width, height, line_length, first_line);
-			first_line = 0;
-			line_length = 0;
-		}
-		else
-			line_length++;
+		process_buffer(buffer, &line_length, width, height, &first_line);
+		bytes_read = read(fd, buffer, 1);
+	}
+	if (bytes_read == -1)
+	{
+		free(buffer);
+		ft_error("Error reading from file", fd, NULL);
 	}
 	if (line_length > 0)
 		update_dimensions(width, height, line_length, first_line);
 	free(buffer);
 }
+
 
 void	read_file_and_update(const char *filename, int *width, int *height)
 {
@@ -91,7 +106,8 @@ void	read_file_and_update(const char *filename, int *width, int *height)
 	close(fd);
 }
 
-void	get_map_dimensions(const char *filename, int *width, int *height)
+void	get_map_dimensions(const char *filename, int *width, \
+int *height)
 {
 	*width = 0;
 	*height = 0;
