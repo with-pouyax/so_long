@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 14:56:41 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:50:44 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_map_height(char *str, int size)
 	close(fd);
 	if (line_count > size || line_count < 3)
 	{
-		ft_printf("Height exceeds limits\n");
+		ft_printf("Line height error\n");
 		exit(1);
 	}
 }
