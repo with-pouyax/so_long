@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 13:10:33 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:12:27 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	main(int ac, char **av)
 	check_surrounded_by_1(av[1]);
 	check_characters(av[1]);
 	validate_map_path(av[1]);
-	//make_window(av[1]);
+	make_window(av[1]);
 	return (0);
 }
