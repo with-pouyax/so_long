@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 18:04:47 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:07:45 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	track_map_info(char c, int x, int y, t_count *counts)
 		counts->p_count++;
 	}
 	else if (c == 'C')
-		counts->e_count++;
-	else if (c == 'E')
-		counts->exit_found = 1;
+		counts->c_count++;
 }
 
 char	*allocate_map_line(int y, int width)

@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:54 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/26 13:37:23 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:09:09 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ void	flood_fill(t_map_params *params, int x, int y, t_count *counts)
 		return ;
 	if (params->map[y][x] == 'E')
 	{
-		if (counts->c_count == counts->e_count)
-			counts->exit_found = 1;
+		counts->exit_found++;
 		return ;
 	}
 	if (params->map[y][x] == 'C')
-		counts->c_count++;
+		counts->c_count--;
 	params->map[y][x] = 'F';
 	flood_fill(params, x + 1, y, counts);
 	flood_fill(params, x - 1, y, counts);
@@ -43,11 +42,16 @@ void	validate_start_pos(t_count counts, t_map_params *params)
 
 void	validate_path(t_count counts, t_map_params *params)
 {
-	if (counts.c_count != counts.e_count || !counts.exit_found)
+	if (counts.c_count)
 	{
 		free_map_memory(params->map, params->height);
 		exit_with_error33("Error: No valid path to collect all \
-		collectibles and reach the exit", params->fd);
+		collectibles", params->fd);
+	}
+	if (!counts.exit_found)
+	{
+		free_map_memory(params->map, params->height);
+		exit_with_error33("Error: No valid path to reach the exit", params->fd);
 	}
 }
 

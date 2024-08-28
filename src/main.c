@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/28 12:32:12 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:07:13 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	check_file_extension(char *filename)
 		basename = filename;
 	else
 		basename++;
-
 	len = strlen(basename);
 	if (len <= 4 || strcmp(basename + len - 4, ".ber") != 0)
 	{
