@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:46:31 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 14:03:50 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:55:04 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_line_count(int fd, int *line_count)
 		else if (!is_line_started)
 			is_line_started = 1;
 	}
-	if (is_line_started) //for the last line
+	if (is_line_started)
 		(*line_count)++;
 }
 

@@ -6,30 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:34:09 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 18:55:08 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:50:02 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-void	init_game_struct(t_game *game)
-{
-	game->mlx = NULL;
-	game->win = NULL;
-	game->wall = NULL;
-	game->ground = NULL;
-	game->collect = NULL;
-	game->end = NULL;
-	game->player = NULL;
-	game->map = NULL;
-	game->width = 0;
-	game->height = 0;
-	game->p_x = 0;
-	game->p_y = 0;
-	game->collect_count = 0;
-	game->collected = 0;
-	game->moves = 0;
-}
 
 void	update_dimensions(int *width, int *height, \
 int line_length, int first_line)
@@ -50,48 +31,48 @@ int line_length, int first_line)
 		exit(1);
 	}
 }
-void	process_buffer(char *buffer, int *line_length, int *width, int *height, int *first_line)
+
+void	process_buffer(char *buffer, t_map_params *params)
 {
 	if (buffer[0] == '\n')
 	{
-		update_dimensions(width, height, *line_length, *first_line);
-		*first_line = 0;
-		*line_length = 0;
+		update_dimensions(&params->width, &params->height, \
+		params->line_len, params->first_line);
+		params->first_line = 0;
+		params->line_len = 0;
 	}
 	else
 	{
-		(*line_length)++;
+		(params->line_len)++;
 	}
 }
 
 void	process_line(int fd, int *width, int *height)
 {
-	char	*buffer;
-	int		line_length;
-	int		first_line;
-	ssize_t bytes_read;
+	char			buffer[2];
+	ssize_t			bytes_read;
+	t_map_params	params;
 
-	buffer = malloc(2 * sizeof(char));
-	if (!buffer)
-		ft_error("Error allocating memory", fd, NULL);
-	line_length = 0;
-	first_line = 1;
+	params.line_len = 0;
+	params.first_line = 1;
+	params.width = *width;
+	params.height = *height;
 	bytes_read = read(fd, buffer, 1);
 	while (bytes_read > 0)
 	{
-		process_buffer(buffer, &line_length, width, height, &first_line);
+		process_buffer(buffer, &params);
 		bytes_read = read(fd, buffer, 1);
 	}
 	if (bytes_read == -1)
 	{
-		free(buffer);
 		ft_error("Error reading from file", fd, NULL);
 	}
-	if (line_length > 0)
-		update_dimensions(width, height, line_length, first_line);
-	free(buffer);
+	if (params.line_len > 0)
+		update_dimensions(&params.width, &params.height, params.line_len, \
+		params.first_line);
+	*width = params.width;
+	*height = params.height;
 }
-
 
 void	read_file_and_update(const char *filename, int *width, int *height)
 {

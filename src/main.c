@@ -6,11 +6,31 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 21:03:59 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:32:12 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+char	*ft_strrchr(const char *s, int c)
+{
+	size_t	i;
+	char	*p;
+
+	i = 0;
+	p = NULL;
+	while (s[i])
+	{
+		if (s[i] == ((char)c))
+		{
+			p = (char *)&s[i];
+		}
+		i++;
+	}
+	if (s[i] == ((char)c))
+		p = (char *)&s[i];
+	return (p);
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -24,10 +44,17 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 int	check_file_extension(char *filename)
 {
-	int	len;
+	int		len;
+	char	*basename;
 
-	len = ft_strlen(filename);
-	if (len < 4 || ft_strcmp(filename + len - 4, ".ber") != 0)
+	basename = ft_strrchr(filename, '/');
+	if (basename == NULL)
+		basename = filename;
+	else
+		basename++;
+
+	len = strlen(basename);
+	if (len <= 4 || strcmp(basename + len - 4, ".ber") != 0)
 	{
 		ft_printf("Error: Invalid file extension. Expected .ber\n");
 		return (0);
@@ -53,7 +80,7 @@ int	main(int ac, char **av)
 	if (!make_window(av[1]))
 	{
 		ft_printf("Failed to create window or load resources.\n");
-		return 1; // Exit with failure status
+		return (1);
 	}
 	return (0);
 }

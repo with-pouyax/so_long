@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:42 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 21:12:30 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:57:00 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,3 @@ void	draw_map(t_game *game, const char *filename)
 	read_and_draw_map(game, fd, buffer);
 	close(fd);
 }
-

@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 21:00:20 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:51:29 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 
 // Constants
 # define INITIAL_MAP_SIZE 10
-# define MAX_WIDTH 20
-# define MAX_HEIGHT 4
+# define MAX_WIDTH 200
+# define MAX_HEIGHT 400
 # define BUFFER_SIZE 1024
 
 // Struct Definitions
@@ -61,12 +61,15 @@ typedef struct s_game
 
 typedef struct s_map_params
 {
-	char		**map;
-	int			width;
-	int			height;
-	int			fd;
-	int			line_len;
-}				t_map_params;
+    char        **map;
+    int         width;
+    int         height;
+    int         fd;
+    int         line_len;
+    int         first_line;
+    int         current_len;     // Added field
+    int         first_line_read; // Added field
+}               t_map_params;
 
 // Function Prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
@@ -126,5 +129,6 @@ void	validate_map_path(char *filename);
 char	*read_line(int fd, int *flag);
 void	exit_with_error33(char *message, int fd);
 void	check_middle_line(char *l, char *line, int fd);
+void	init_game_struct(t_game *game);
 
 #endif

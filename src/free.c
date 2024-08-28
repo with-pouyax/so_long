@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:44:35 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 20:33:29 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:28:42 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	free_images(t_game *game)
 		game->player = NULL;
 	}
 }
-
 
 void	cleanup(t_game *game)
 {

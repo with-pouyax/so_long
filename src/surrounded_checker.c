@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:57:11 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 13:09:59 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:27:06 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	process_file_lines(int fd)
 	check_first_last_line(line, fd);
 	free(line);
 	line = read_line(fd, &flag);
+	if (line == NULL)
+		exit_with_error("Error reading file", fd, NULL);
 	process_lines_loop(fd, line, flag);
 }
 

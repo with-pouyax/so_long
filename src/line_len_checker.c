@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:09:07 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 18:35:45 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:22:05 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,42 @@ void	validate_line(int current_len, int size, int fd)
 	}
 }
 
+void	process_line_content(char c, t_map_params *params, int size)
+{
+	if (c == '\n')
+	{
+		if (!(params->first_line_read) && params->current_len == 0)
+			handle_error("Unexpected empty first line", params->fd);
+		validate_line(params->current_len, size, params->fd);
+		params->first_line_read = 1;
+		params->current_len = 0;
+	}
+	else
+		(params->current_len)++;
+}
+
 void	process_lines(int fd, int size)
 {
-	char	c;
-	int		current_len;
-	int		first_line_read;
+	char			c;
+	ssize_t			bytes_read;
+	t_map_params	params;
 
-	current_len = 0;
-	first_line_read = 0;
-	while (read(fd, &c, 1) == 1)
+	params.fd = fd;
+	params.current_len = 0;
+	params.first_line_read = 0;
+	while (1)
 	{
-		if (c == '\n')
-		{
-			if (!first_line_read && current_len == 0)
-				handle_error("Unexpected empty first line", fd);
-			validate_line(current_len, size, fd);
-			first_line_read = 1;
-			current_len = 0;
-		}
+		bytes_read = read(fd, &c, 1);
+		if (bytes_read == 1)
+			process_line_content(c, &params, size);
 		else
-		{
-			current_len++;
-		}
+			break ;
 	}
-	if (current_len > 0)
-		validate_line(current_len, size, fd);
+	if (bytes_read == -1)
+		handle_error("Error reading from file", fd);
+	else if (params.current_len > 0)
+		validate_line(params.current_len, size, fd);
+	close(fd);
 }
 
 void	check_line_len(char *str, int size)
