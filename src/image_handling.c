@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 11:26:18 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:31:37 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	create_window(t_game *game, const char *filename)
 	load_images(game);
 	draw_map(game, filename);
 	if (mlx_put_image_to_window(game->mlx, game->win, game->player, \
-	game->p_x * 100, game->p_y * 100) == 0)
+	game->p_x * 100, game->p_y * 100) == -1)
 		return (cleanup(game), 0);
 	if (mlx_key_hook(game->win, handle_keypress, game) == 0)
 		return (cleanup(game), 0);
