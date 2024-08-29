@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/28 12:32:56 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:26:18 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	load_image(t_game *game, void **image, char *file_name)
 	{
 		free_images(game);
 		cleanup(game);
+		ft_printf("problem loading image\n");
 		exit(1);
 	}
 }
