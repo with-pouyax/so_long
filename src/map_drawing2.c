@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 13:02:16 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 13:02:48 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:01:59 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	put_image(t_map_data *data, void *img)
 		handle_error_and_exit(data->fd, NULL, NULL, data->game);
 	}
 }
-
 
 void	process_map_char(t_map_data *data)
 {

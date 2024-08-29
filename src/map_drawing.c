@@ -6,13 +6,11 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:42 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 13:01:52 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:01:07 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-
 
 void	read_and_draw_map(t_game *game, int fd, char *buffer)
 {
@@ -30,7 +28,6 @@ void	read_and_draw_map(t_game *game, int fd, char *buffer)
 			process_map_character(game, &data, buffer);
 	}
 }
-
 
 void	handle_error_and_exit_1(int fd, \
 char **map, char *buffer, t_game *game)

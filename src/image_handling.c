@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:00 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 13:31:37 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:58:03 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	load_image(t_game *game, void **image, char *file_name)
 
 void	load_images(t_game *game)
 {
-	load_image(game, (void **)&game->wall, "assets/wall.xpm");
-	load_image(game, (void **)&game->ground, "assets/ground.xpm");
-	load_image(game, (void **)&game->collect, "assets/collectable.xpm");
-	load_image(game, (void **)&game->end, "assets/end.xpm");
-	load_image(game, (void **)&game->player, "assets/player.xpm");
+	load_image(game, (void **)&game->wall, "textures/wall.xpm");
+	load_image(game, (void **)&game->ground, "textures/ground.xpm");
+	load_image(game, (void **)&game->collect, "textures/collectable.xpm");
+	load_image(game, (void **)&game->end, "textures/end.xpm");
+	load_image(game, (void **)&game->player, "textures/player.xpm");
 }
 
 int	create_window(t_game *game, const char *filename)
 {
 	game->win = mlx_new_window(game->mlx, game->width * 100, \
-	game->height * 100, "Map Window");
+	game->height * 100, "Toilet Run");
 	if (game->win == NULL)
 	{
 		return (cleanup(game), 0);

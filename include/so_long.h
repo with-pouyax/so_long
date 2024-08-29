@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 13:38:22 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:00:27 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,12 @@ typedef struct s_map_params
 
 typedef struct s_map_data
 {
-    t_game *game;
-    char    c;
-    int     x;
-    int     y;
-    int     fd;
-} t_map_data;
-
+	t_game	*game;
+	char	c;
+	int		x;
+	int		y;
+	int		fd;
+}	t_map_data;
 
 // Function Prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
