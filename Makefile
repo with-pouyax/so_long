@@ -27,7 +27,7 @@ FT_PRINTF_LIB = $(FT_PRINTF_DIR)/libftprintf.a
 # The list of source files (.c files) that will be compiled
 SRCS = src/chars_checker.c src/errors.c src/exit.c src/free.c \
        src/game_controls.c src/init_game_struct.c src/game_init.c \
-       src/image_handling.c src/main.c src/map_drawing.c \
+       src/image_handling.c src/main.c src/map_drawing.c src/map_drawing2.c\
        src/path_validator.c src/rectangle.c src/surrounded_checker.c \
        src/line_len_checker.c src/line_count_checker.c \
        src/ft_strlen.c src/map_reader.c src/file_reader.c

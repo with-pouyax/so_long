@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 11:23:08 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:04:03 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,22 @@ typedef struct s_map_params
 	int		first_line_read;
 }			t_map_params;
 
+typedef struct s_map_data
+{
+    t_game *game;
+    char    c;
+    int     x;
+    int     y;
+    int     fd;
+} t_map_data;
+
+
 // Function Prototypes
 void	process_key(int keycode, int *new_x, int *new_y);
 int		is_move_valid(int new_x, int new_y, t_game *game);
 void	update_position(int new_x, int new_y, t_game *game);
 int		handle_keypress(int keycode, t_game *game);
-void	process_map_char(t_game *game, char c, int x, int y);
+void	process_map_char(t_map_data *data);
 void	read_and_draw_map(t_game *game, int fd, char *buffer);
 void	allocate_map_memory(t_game *game, int fd, char *buffer);
 void	handle_error(const char *message, int fd);
@@ -129,5 +139,8 @@ char	*read_line(int fd, int *flag);
 void	exit_with_error33(char *message, int fd);
 void	check_middle_line(char *l, char *line, int fd);
 void	init_game_struct(t_game *game);
+void	handle_newline(int *x, int *y);
+void	process_map_character(t_game *game, t_map_data *data, char *buffer);
+void	process_map_char(t_map_data *data);
 
 #endif
