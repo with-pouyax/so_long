@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:29:13 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/27 17:57:01 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:34:01 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ void	exit_with_error(char *message, int fd, char *line)
 void	handle_error_and_exit(int fd, \
 char **map, char *buffer, t_game *game)
 {
+	(void)buffer;
 	free(map);
-	if (buffer)
-		free(buffer);
 	if (fd >= 0)
 		close(fd);
 	if (game)
