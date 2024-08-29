@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/28 17:05:58 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:23:08 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include "../src/ft_printf/ft_printf.h"
 
 // Constants
-# define INITIAL_MAP_SIZE 10
 # define MAX_WIDTH 200
 # define MAX_HEIGHT 400
 # define BUFFER_SIZE 1024
