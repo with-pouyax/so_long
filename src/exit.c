@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 12:29:13 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 15:34:01 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:05:30 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char **map, char *buffer, t_game *game)
 
 void	handle_exit(t_game *game)
 {
+	game->moves++;
+		ft_printf("Moves: %d\n", game->moves);
 	ft_printf("Congratulations, you've won!\n");
 	cleanup(game);
 	exit(0);
