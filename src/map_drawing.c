@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:42 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/28 17:42:02 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:33:00 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,12 @@ void	allocate_map_memory(t_game *game, int fd, char *buffer)
 void	draw_map(t_game *game, const char *filename)
 {
 	int		fd;
-	char	*buffer;
+	char	buffer[2];
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		handle_error_and_exit(-1, NULL, NULL, game);
-	buffer = (char *)malloc(sizeof(char) * 2);
-	if (!buffer)
-		handle_error_and_exit(fd, NULL, NULL, game);
 	allocate_map_memory(game, fd, buffer);
 	read_and_draw_map(game, fd, buffer);
-	free(buffer);
 	close(fd);
 }
