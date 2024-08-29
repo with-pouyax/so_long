@@ -9,7 +9,7 @@ CC = cc
 # -Wextra: Enable some extra warning flags not covered by -Wall
 # -Werror: Treat all warnings as errors, stopping compilation
 # -g: Include debugging information in the executable
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # Libraries that the program needs to link against.
 # These libraries are for handling graphics:
