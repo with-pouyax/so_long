@@ -6,7 +6,7 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:45:10 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 15:19:50 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:45:17 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	check_file_extension(char *filename)
 		basename = filename;
 	else
 		basename++;
-	len = strlen(basename);
-	if (len <= 4 || strcmp(basename + len - 4, ".ber") != 0)
+	len = ft_strlen(basename);
+	if (len <= 4 || ft_strcmp(basename + len - 4, ".ber") != 0)
 	{
 		ft_printf("Error: Invalid file extension. Expected .ber\n");
 		return (0);
