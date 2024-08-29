@@ -6,18 +6,15 @@
 /*   By: pghajard <pghajard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:26:32 by pghajard          #+#    #+#             */
-/*   Updated: 2024/08/29 14:00:27 by pghajard         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:51:43 by pghajard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <stdio.h>
 # include <fcntl.h>
-# include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # include <mlx.h>
 # include "../src/ft_printf/ft_printf.h"
 
