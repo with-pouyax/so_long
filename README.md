@@ -1,8 +1,9 @@
 # <div align="center">So Long - 2D Game Project</div>
 
 <div align="center">
-  <img src="gameplay-preview.gif" alt="Gameplay Preview" style="width: 200%; height: 200%;">
+  <img src="gameplay-preview.gif" alt="Gameplay Preview" width="800">
 </div>
+
 
 
 ## <div align="center">Table of Contents</div>
