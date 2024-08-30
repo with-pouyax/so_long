@@ -156,7 +156,7 @@ Compile the project: Run the Makefile to compile the project:
 make
 This will generate the executable so_long.
 
-<div align="center">Usage</div>
+## <div align="center">Usage</div>
 To run the game, use the following command:
 
 ./so_long path/to/map.ber
