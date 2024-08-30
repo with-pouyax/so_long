@@ -165,7 +165,7 @@ Example:
 ./so_long maps/sample_map.ber
 This command will open a window with the game based on the specified map file.
 
-<div align="center">Technical Details</div>
+## <div align="center">Technical Details</div>
 MiniLibX: The game uses MiniLibX, a simple graphical library, to manage the window, handle events, and render the game.
 
 Memory Management:
@@ -179,7 +179,7 @@ make clean: Removes object files.
 make fclean: Removes object files and the executable.
 make re: Recompiles the project from scratch.
 make bonus: Compiles bonus features (if applicable).
-<div align="center">Error Handling</div>
+## <div align="center">Error Handling</div>
 The game includes robust error handling for various scenarios:
 
 Invalid Map:
@@ -205,12 +205,12 @@ Map is not properly enclosed by walls.
 
 Error
 No valid path to collect all items and reach the exit.
-<div align="center">Resources</div>
+## <div align="center">Resources</div>
 MiniLibX Documentation: MiniLibX Getting Started
 42 School C Projects: 42 Cursus Overview
 libft Library: libft Repository
 Additional References:
 Understanding 2D Game Development
 C Programming Language Resources
-<div align="center">License</div>
+## <div align="center">License</div>
 This project is licensed under the MIT License. See the LICENSE file for details.
