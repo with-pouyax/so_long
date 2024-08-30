@@ -53,11 +53,14 @@ The game map is represented as a `.ber` file, which is a text file containing a 
 
 ### Example Map:
 
-1111111<br>
-1P00001<br>
-100C001<br>
-1E00001<br>
+
+
+1111111  
+1P00001  
+100C001  
+1E00001  
 1111111
+
 
 
 - The map must contain exactly one player (`P`), at least one exit (`E`), and at least one collectible (`C`).
