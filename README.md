@@ -6,7 +6,7 @@
 
 
 
-## <div align="center">Table of Contents</div>
+## <div align="center">Table of Contents</div> 
 - [Introduction](#introduction)
 - [Objectives](#objectives)
 - [Game Mechanics](#game-mechanics)
