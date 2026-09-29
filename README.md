@@ -26,10 +26,10 @@ Requires a C compiler, Make, MiniLibX dependencies and a graphical session.
 
 ```sh
 make
-./so_long maps/sample_map.ber
+./so_long maps/maps_valid/ok.ber
 ```
 
-Pick an existing filename from [`maps/`](maps) if that sample is unavailable. `make clean`, `make fclean` and `make re` are available.
+Additional valid and deliberately invalid cases are organized under [`maps/`](maps). `make clean`, `make fclean` and `make re` are available.
 
 ## Explore the code
 
